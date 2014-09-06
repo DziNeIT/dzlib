@@ -73,20 +73,21 @@ public class UnsafeAccessor {
      * @return the {@link sun.misc.Unsafe} instance, or null if not available
      */
     public static Unsafe get() {
-        if (unsafe == null && !failed) {
-            for (String fieldName : FIELD_NAMES) {
-                try {
-                    Field field = Unsafe.class.getDeclaredField(fieldName);
-                    field.setAccessible(true);
-                    unsafe = (Unsafe) field.get(null);
-                } catch (Exception ignore) {
-                }
-            }
+        if (unsafe != null || failed) {
+            return unsafe;
+        }
 
-            if (unsafe == null) {
-                failed = true;
-                return null;
+        for (String fieldName : FIELD_NAMES) {
+            try {
+                Field field = Unsafe.class.getDeclaredField(fieldName);
+                field.setAccessible(true);
+                unsafe = (Unsafe) field.get(null);
+            } catch (Exception ignore) {
             }
+        }
+
+        if (unsafe == null) {
+            failed = true;
         }
 
         return unsafe;
