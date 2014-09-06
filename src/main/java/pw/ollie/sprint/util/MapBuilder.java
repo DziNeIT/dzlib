@@ -55,6 +55,15 @@ import java.util.concurrent.ConcurrentHashMap;
  *                    Util.list("myvalue", "value2", "this method works", "builders rock")).build();
  * </code>
  *
+ * Or this:
+ *
+ * <code>
+ *     Map<String, String> map = new MapBuilder<>()
+ *                                   .with("mystring", "myvalue").with("string2", "value")
+ *                                   .with("stringification", "this method works").with("this is great", "builders rock")
+ *                                   .build();
+ * </code>
+ *
  * The above list util method is {@link Util#list(Object[])}. Note that the
  * {@link #with(List, List)} method isn't the only way of adding elements to the
  * builder. There is also {@link #with(Collection)}, which takes a {@link
