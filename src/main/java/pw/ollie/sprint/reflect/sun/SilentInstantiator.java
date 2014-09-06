@@ -67,8 +67,26 @@ public class SilentInstantiator {
      */
     public static <T> T create(Class<? extends T> clazz,
             Class<? super T> parent) {
+        return create(clazz, parent, false);
+    }
+
+    /**
+     * Creates a new object of type T, without calling the constructor. If an
+     * {@link sun.misc.Unsafe} instance is available, it will be used by this
+     * method. Otherwise, sun.reflect is used to create a serialization
+     * constructor to create an object.
+     *
+     * @param clazz the class to silently create an instance of
+     * @param parent the superclass of the class to create an instance of
+     * @param useUnsafe whether to attempt to use {@link sun.misc.Unsafe}
+     * @param <T> the type which the class is
+     * @return an instance of the given class, created without calling any
+     *         constructor
+     */
+    public static <T> T create(Class<? extends T> clazz,
+            Class<? super T> parent, boolean useUnsafe) {
         // Allocate instance of the class with sun.misc.Unsafe. Written by Ollie
-        if (UnsafeAccessor.get() != null) {
+        if (useUnsafe && UnsafeAccessor.get() != null) {
             try {
                 // unchecked cast but should be fine every time
                 return (T) UnsafeAccessor.get().allocateInstance(clazz);
