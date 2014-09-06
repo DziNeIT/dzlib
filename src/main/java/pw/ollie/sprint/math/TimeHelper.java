@@ -38,7 +38,7 @@ public class TimeHelper {
      * @return the difference, in millis, between {@code from} and the current
      *         time
      */
-    public static long getTimeDifference(long from) {
+    public static long getTimeSince(long from) {
         return MathHelper.getDifference(from, getCurrentTimeMillis());
     }
 
