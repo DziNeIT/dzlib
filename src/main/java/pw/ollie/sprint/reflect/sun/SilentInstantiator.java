@@ -67,7 +67,7 @@ public class SilentInstantiator {
      */
     public static <T> T create(Class<? extends T> clazz,
             Class<? super T> parent) {
-        return create(clazz, parent, false);
+        return create(clazz, parent, !UnsafeReflection.avoidUnsafe());
     }
 
     /**

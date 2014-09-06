@@ -72,6 +72,16 @@ public class UnsafeReflection {
         }
     }
 
+    private static boolean avoidUnsafe = true;
+
+    public static boolean avoidUnsafe() {
+        return avoidUnsafe;
+    }
+
+    public static void avoidUnsafe(boolean avoidUnsafe) {
+        UnsafeReflection.avoidUnsafe = avoidUnsafe;
+    }
+
     /**
      * Sets the value of the given static final {@link Field} to the given
      * value. This code was written by Heinz Kabutz.
