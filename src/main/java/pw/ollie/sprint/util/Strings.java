@@ -62,6 +62,16 @@ public class Strings {
     };
 
     /**
+     * Gets all consonants. This method calls {@link Object#clone()} and thus
+     * should not be called frequently. Cache the value.
+     *
+     * @return an array of all consonants
+     */
+    public static char[] consonants() {
+        return CONSONANTS.clone();
+    }
+
+    /**
      * Generates a random <code>String</code> of the specified length
      *
      * @param length the length of the String
