@@ -29,11 +29,16 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class EnumIterator<E extends Enum> implements Iterator<E> {
-    private ArrayIterator<E> backingIterator;
-    private E[] array;
+    private final ArrayIterator<E> backingIterator;
+    private final E[] array;
 
     public EnumIterator(Class<E> enumType) {
         array = Util.getEnumValues(enumType);
+        backingIterator = new ArrayIterator<>(array);
+    }
+
+    public EnumIterator(E[] array) {
+        this.array = array;
         backingIterator = new ArrayIterator<>(array);
     }
 
@@ -52,7 +57,7 @@ public class EnumIterator<E extends Enum> implements Iterator<E> {
         backingIterator.remove();
     }
 
-    public void reset() {
-        backingIterator = new ArrayIterator<>(array);
+    public EnumIterator<E> reset() {
+        return new EnumIterator<>(array);
     }
 }
