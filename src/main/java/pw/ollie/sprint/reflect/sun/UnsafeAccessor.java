@@ -37,6 +37,11 @@ import java.lang.reflect.Field;
  */
 public class UnsafeAccessor {
     /**
+     * The {@link Class} object for {@link Unsafe}.
+     */
+    public static final Class<Unsafe> unsafeType = Unsafe.class;
+
+    /**
      * An iterate of possible field names for the instance of {@link Unsafe}. This
      * is used because on different JVMs, the field name for {@link Unsafe}'s
      * instance may be different - for example, on Dalvik the field name is
@@ -79,9 +84,11 @@ public class UnsafeAccessor {
 
         for (String fieldName : FIELD_NAMES) {
             try {
-                Field field = Unsafe.class.getDeclaredField(fieldName);
+                Field field = unsafeType.getDeclaredField(fieldName);
+                boolean previous = field.isAccessible();
                 field.setAccessible(true);
                 unsafe = (Unsafe) field.get(null);
+                field.setAccessible(previous);
             } catch (Exception ignore) {
             }
         }
