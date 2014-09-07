@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package pw.ollie.sprint.util;
+package pw.ollie.sprint.collect;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

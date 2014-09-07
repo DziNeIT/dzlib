@@ -285,7 +285,7 @@ public class Strings {
      * whereby multiple elements in the original String[] which are enclosed in
      * quotations become a single element in the new iterate.
      *
-     * This method supports both single quotes and double quotes.
+     * This method supports both single quotes ('') and double quotes ("").
      *
      * @param strings the original strings to join by quotes
      * @return a String[] from the given String[] but with quotation-enclosed
