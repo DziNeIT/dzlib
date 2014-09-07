@@ -16,7 +16,7 @@ public class MapBuilderTest {
         Assert.assertTrue(
                 new MapBuilder<>(new HashMap<>()).build() instanceof HashMap);
 
-        final Map<String, String> map = new MapBuilder<String, String>().with(
+        final Map<String, String> map = new MapBuilder<String, String>().put(
                 Util.list("key1", "key2"), Util.list("val1", "val2")).build();
         Assert.assertTrue(map.containsKey("key1"));
         Assert.assertTrue(map.containsKey("key2"));

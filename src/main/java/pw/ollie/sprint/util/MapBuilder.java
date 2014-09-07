@@ -137,7 +137,7 @@ public final class MapBuilder<K, V> {
      * @param vals a {@link List} of the values to add
      * @return this {@link MapBuilder} object
      */
-    public MapBuilder<K, V> with(List<K> keys, List<V> vals) {
+    public MapBuilder<K, V> put(List<K> keys, List<V> vals) {
         if (keys == null || vals == null || keys.size() != vals.size()) {
             throw new IllegalArgumentException();
         }
@@ -154,7 +154,7 @@ public final class MapBuilder<K, V> {
      * @param val the value to add
      * @return this {@link MapBuilder} object
      */
-    public MapBuilder<K, V> with(K key, V val) {
+    public MapBuilder<K, V> put(K key, V val) {
         map.put(key, val);
         return this;
     }
@@ -166,7 +166,7 @@ public final class MapBuilder<K, V> {
      * @param entries the {@link Entry}s to add
      * @return this {@link MapBuilder} object
      */
-    public MapBuilder<K, V> with(Collection<Entry<K, V>> entries) {
+    public MapBuilder<K, V> put(Collection<Entry<K, V>> entries) {
         if (entries == null) {
             return null;
         }
@@ -185,7 +185,7 @@ public final class MapBuilder<K, V> {
      * @param map the {@link Map} to add elements from
      * @return this {@link MapBuilder} object
      */
-    public MapBuilder<K, V> withAll(Map<K, V> map) {
+    public MapBuilder<K, V> putAll(Map<K, V> map) {
         this.map.putAll(map);
         return this;
     }
