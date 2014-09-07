@@ -26,7 +26,7 @@ package pw.ollie.sprint.math;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * General helper functions for math
+ * General helper functions for math.
  *
  * @author Ollie [DziNeIT]
  */
@@ -49,7 +49,7 @@ public class MathHelper {
 
     /**
      * Converts a a pair of values from the cartesian coordinates system to the
-     * polar coordinates system
+     * polar coordinates system.
      *
      * http://en.wikipedia.org/wiki/Cartesian_coordinate_system
      * http://en.wikipedia.org/wiki/Polar_coordinate_system
