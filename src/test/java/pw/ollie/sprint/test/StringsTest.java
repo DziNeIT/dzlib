@@ -24,5 +24,17 @@ public class StringsTest {
                 put("four", "4");
             }
         };
+
+        Assert.assertEquals(Strings.lookup(map, "on", true).get(), "1");
+
+        String[] args = new String[] {
+                "hello", "\"world", "is", "cool\"", "nope"
+        };
+
+        String[] joined = Strings.joinQuoted(args);
+        Assert.assertEquals(joined.length, 3);
+        Assert.assertEquals(joined[0], "hello");
+        Assert.assertEquals(joined[1], "world is cool");
+        Assert.assertEquals(joined[2], "nope");
     }
 }
