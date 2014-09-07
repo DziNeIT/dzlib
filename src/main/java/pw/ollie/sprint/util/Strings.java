@@ -308,13 +308,13 @@ public class Strings {
                 if (first == '\'') {
                     currentState = 1;
                     string = string.length() > 1 ? string.substring(1) : "";
-                    currentState = parseQuoted(string, quoted, parsed,
-                            fallback, currentState);
+                    currentState = parseQuoted(string, quoted, parsed, fallback,
+                            currentState);
                 } else if (first == '\"') {
                     currentState = 2;
                     string = string.length() > 1 ? string.substring(1) : "";
-                    currentState = parseQuoted(string, quoted, parsed,
-                            fallback, currentState);
+                    currentState = parseQuoted(string, quoted, parsed, fallback,
+                            currentState);
                 } else {
                     parsed.add(string);
                 }
@@ -450,10 +450,6 @@ public class Strings {
      */
     private static int parseQuoted(String string, StringBuilder quoted,
             List<String> parsed, List<String> fallback, int currentState) {
-        if (string.isEmpty()) {
-            return currentState;
-        }
-
         char last = string.charAt(string.length() - 1);
         if ((last == '\'' && currentState == 1
                 || last == '\"' && currentState == 2) && (string.length() <= 1

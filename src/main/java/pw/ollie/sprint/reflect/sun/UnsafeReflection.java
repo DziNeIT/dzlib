@@ -111,7 +111,8 @@ public class UnsafeReflection {
      * Modifies the actual value of the given {@link String} to the given
      * char[]. This is very unsafe and should not be used in production
      * applications outside of extreme circumstances or circumstances where
-     * there are literally no alternatives.
+     * there are literally no alternatives - probably never because I have no
+     * idea why you'd need to do this.
      *
      * Example:
      *
