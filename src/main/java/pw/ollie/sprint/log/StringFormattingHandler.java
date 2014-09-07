@@ -25,10 +25,10 @@ package pw.ollie.sprint.log;
 
 import pw.ollie.sprint.format.StringFormatter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
@@ -38,24 +38,24 @@ import java.util.logging.LogRecord;
  */
 public class StringFormattingHandler extends Handler {
     /**
-     * The {@link Set} of {@link StringFormatter}s being applied to the output.
+     * The {@link List} of {@link StringFormatter}s being applied to the output.
      */
-    private Set<StringFormatter> formatters;
+    private List<StringFormatter> formatters;
     /**
      * Whether the {@link StringFormattingHandler} is currently active.
      */
     private boolean active = true;
 
     public StringFormattingHandler() {
-        this.formatters = new HashSet<>();
+        this.formatters = new ArrayList<>();
     }
 
     public StringFormattingHandler(Collection<StringFormatter> formatters) {
-        this.formatters = new HashSet<>(formatters);
+        this.formatters = new ArrayList<>(formatters);
     }
 
     public StringFormattingHandler(StringFormatter... formatters) {
-        this.formatters = new HashSet<>(Arrays.asList(formatters));
+        this.formatters = new ArrayList<>(Arrays.asList(formatters));
     }
 
     @Override

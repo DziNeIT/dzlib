@@ -23,24 +23,24 @@
  */
 package pw.ollie.sprint.format;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class BatchStringFormatter implements StringFormatter {
-    private Set<StringFormatter> formatters;
+    private List<StringFormatter> formatters;
 
     public BatchStringFormatter() {
-        this.formatters = new HashSet<>();
+        this.formatters = new ArrayList<>();
     }
 
     public BatchStringFormatter(Collection<StringFormatter> formatters) {
-        this.formatters = new HashSet<>(formatters);
+        this.formatters = new ArrayList<>(formatters);
     }
 
     public BatchStringFormatter(StringFormatter... formatters) {
-        this.formatters = new HashSet<>(Arrays.asList(formatters));
+        this.formatters = new ArrayList<>(Arrays.asList(formatters));
     }
 
     @Override
