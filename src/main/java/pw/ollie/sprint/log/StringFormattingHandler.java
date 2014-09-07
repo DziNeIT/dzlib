@@ -93,5 +93,6 @@ public class StringFormattingHandler extends Handler {
 
     @Override
     public void close() throws SecurityException {
+        formatters.clear();
     }
 }
