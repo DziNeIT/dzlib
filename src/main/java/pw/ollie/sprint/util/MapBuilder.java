@@ -65,10 +65,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * </code>
  *
  * The above list util method is {@link Util#list(Object[])}. Note that the
- * {@link #with(List, List)} method isn't the only way of adding elements to the
- * builder. There is also {@link #with(Collection)}, which takes a {@link
- * Collection} of {@link Entry}s, {@link #with(Object, Object)}, which adds an
- * individual key and value, and {@link #withAll(Map)}, which puts the contents
+ * {@link #put(List, List)} method isn't the only way of adding elements to the
+ * builder. There is also {@link #put(Collection)}, which takes a {@link
+ * Collection} of {@link Entry}s, {@link #put(Object, Object)}, which adds an
+ * individual key and value, and {@link #putAll(Map)}, which puts the contents
  * of the {@link Map} to this builder.
  *
  * Using the MapType enum, you can also create other types of Maps - the
