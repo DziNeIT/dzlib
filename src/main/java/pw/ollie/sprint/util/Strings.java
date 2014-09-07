@@ -305,26 +305,53 @@ public class Strings {
             fallback.add(string);
             if (currentState == 0) {
                 char first = string.charAt(0);
-                if (first == '\'') {
-                    currentState = 1;
+                if (first == '\'' || first == '\"') {
+                    currentState = first == '\'' ? 1 : 2;
                     string = string.length() > 1 ? string.substring(1) : "";
-                    currentState = parseQuoted(string, quoted, parsed, fallback,
-                            currentState);
-                } else if (first == '\"') {
-                    currentState = 2;
-                    string = string.length() > 1 ? string.substring(1) : "";
-                    currentState = parseQuoted(string, quoted, parsed, fallback,
-                            currentState);
+                    char last = string.charAt(string.length() - 1);
+                    if (currentState == 1 && last == '\'' && (string.length()
+                            <= 1 || string.charAt(string.length() - 2)
+                            != '\\')) {
+                        string = string.length() > 1 ? string.substring(0,
+                                string.length() - 1) : "";
+                        quoted.append(string);
+                        parsed.add(quoted.toString());
+                        quoted.delete(0, quoted.length());
+                        fallback.clear();
+                        currentState = 0;
+                    } else if (currentState == 2 && last == '\"' && (string
+                            .length() <= 1 || string.charAt(string.length() - 2)
+                            != '\\')) {
+                        string = string.length() > 1 ?
+                                string.substring(0, string.length() - 1) : "";
+                        quoted.append(string);
+                        parsed.add(quoted.toString());
+                        quoted.delete(0, quoted.length());
+                        fallback.clear();
+                        currentState = 0;
+                    }
+
+                    quoted.append(string);
                 } else {
                     parsed.add(string);
                 }
             } else {
                 quoted.append(' ');
-                currentState = parseQuoted(string, quoted, parsed, fallback,
-                        currentState);
+                char last = string.charAt(string.length() - 1);
+                if ((last == '\'' && currentState == 1 || last == '\"' &&
+                        currentState == 2) && (string.length() <= 1 ||
+                        string.charAt(string.length() - 2) != '\\')) {
+                    string = string.length() > 1 ? string.substring(0,
+                            string.length() - 1) : "";
+                    quoted.append(string);
+                    parsed.add(quoted.toString());
+                    quoted.delete(0, quoted.length());
+                    fallback.clear();
+                    currentState = 0;
+                }
+                quoted.append(string);
             }
         }
-
         if (currentState != 0 && !fallback.isEmpty()) {
             parsed.addAll(fallback);
         }
@@ -441,31 +468,6 @@ public class Strings {
             boolean fuzzy) {
         // default to a tolerance of 2 characters
         return lookup(lookup, name, fuzzy, 2);
-    }
-
-    // Internal utility methods
-
-    /**
-     * @see {@link #joinQuoted(String[])}
-     */
-    private static int parseQuoted(String string, StringBuilder quoted,
-            List<String> parsed, List<String> fallback, int currentState) {
-        char last = string.charAt(string.length() - 1);
-        if ((last == '\'' && currentState == 1
-                || last == '\"' && currentState == 2) && (string.length() <= 1
-                || string.charAt(string.length() - 2) != '\\')) {
-            string = string.length() > 1 ? string.substring(
-                    0, string.length() - 1) : "";
-            quoted.append(string);
-            parsed.add(quoted.toString());
-            quoted.delete(0, quoted.length());
-            fallback.clear();
-            currentState = 0;
-        } else {
-            quoted.append(string);
-        }
-
-        return currentState;
     }
 
     private Strings() {
