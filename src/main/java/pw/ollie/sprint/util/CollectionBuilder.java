@@ -71,6 +71,16 @@ public class CollectionBuilder<E> {
     }
 
     /**
+     * Constructs a new {@link CollectionBuilder}, using a {@link Collection} of
+     * the given {@link CollectionType} for building.
+     *
+     * @param collectionType the type of {@link Collection} to use
+     */
+    public CollectionBuilder(CollectionType collectionType) {
+        this.elements = collectionType.instantiate();
+    }
+
+    /**
      * Constructs a new {@link CollectionBuilder}, using the given {@link
      * Collection} for the backing store. Note that the {@link Collection} which
      * is passed is the one which is actually used, so any modifications to the
