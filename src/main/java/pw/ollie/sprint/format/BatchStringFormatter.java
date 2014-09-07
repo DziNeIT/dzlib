@@ -23,6 +23,8 @@
  */
 package pw.ollie.sprint.format;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,7 +32,15 @@ public class BatchStringFormatter implements StringFormatter {
     private Set<StringFormatter> formatters;
 
     public BatchStringFormatter() {
-        formatters = new HashSet<>();
+        this.formatters = new HashSet<>();
+    }
+
+    public BatchStringFormatter(Collection<StringFormatter> formatters) {
+        this.formatters = new HashSet<>(formatters);
+    }
+
+    public BatchStringFormatter(StringFormatter... formatters) {
+        this.formatters = new HashSet<>(Arrays.asList(formatters));
     }
 
     @Override
@@ -45,14 +55,16 @@ public class BatchStringFormatter implements StringFormatter {
         return intake;
     }
 
-    public void add(StringFormatter formatter) {
+    public BatchStringFormatter add(StringFormatter formatter) {
         if (formatter == this) {
             throw new IllegalArgumentException();
         }
         formatters.add(formatter);
+        return this;
     }
 
-    public void remove(StringFormatter formatter) {
+    public BatchStringFormatter remove(StringFormatter formatter) {
         formatters.remove(formatter);
+        return this;
     }
 }

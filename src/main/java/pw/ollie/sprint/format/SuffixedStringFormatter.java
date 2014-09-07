@@ -26,6 +26,13 @@ package pw.ollie.sprint.format;
 public class SuffixedStringFormatter implements StringFormatter {
     private String suffix;
 
+    public SuffixedStringFormatter() {
+    }
+
+    public SuffixedStringFormatter(String suffix) {
+        this.suffix = suffix;
+    }
+
     @Override
     public String format(String intake) {
         if (suffix == null) {

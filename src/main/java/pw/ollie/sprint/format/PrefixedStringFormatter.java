@@ -26,6 +26,13 @@ package pw.ollie.sprint.format;
 public class PrefixedStringFormatter implements StringFormatter {
     private String prefix;
 
+    public PrefixedStringFormatter() {
+    }
+
+    public PrefixedStringFormatter(String prefix) {
+        this.prefix = prefix;
+    }
+
     @Override
     public String format(String intake) {
         if (prefix == null) {
