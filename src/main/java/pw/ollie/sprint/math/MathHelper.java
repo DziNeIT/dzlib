@@ -23,6 +23,7 @@
  */
 package pw.ollie.sprint.math;
 
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -71,7 +72,7 @@ public class MathHelper {
      * @return a slightly modified version of given float
      */
     public static float randomise(float f) {
-        ThreadLocalRandom rand = random();
+        Random rand = random();
         float ret = f - 0.2f;
         ret += (2 * 0.2f) * rand.nextFloat();
         return ret;

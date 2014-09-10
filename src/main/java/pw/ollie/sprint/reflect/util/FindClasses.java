@@ -78,6 +78,40 @@ public class FindClasses {
         return classes;
     }
 
+    /**
+     * @param pkgName the name of the package to get classes for
+     * @return {@link #getClasses(String, ClassLoader, boolean)} called with
+     *         {@code pkgName}, {@link Class#getClassLoader()} and {@code true}
+     *         as arguments
+     */
+    public static List<Class<?>> getClasses(String pkgName) {
+        return getClasses(pkgName, FindClasses.class.getClassLoader(), true);
+    }
+
+    /**
+     * @param pkgName the name of the package to get classes for
+     * @param loader the {@link ClassLoader} to get resources from
+     * @return {@link #getClasses(String, ClassLoader, boolean)} called with
+     *         {@code pkgName}, {@code loader} and {@code true} as arguments
+     */
+    public static List<Class<?>> getClasses(String pkgName,
+            ClassLoader loader) {
+        return getClasses(pkgName, loader, true);
+    }
+
+    /**
+     * @param pkgName the name of the package to get classes for
+     * @param includeChildren whether to include children of the package given
+     * @return {@link #getClasses(String, ClassLoader, boolean)} called with
+     *         {@code pkgName}, {@link Class#getClassLoader()} and {@code
+     *         includeChildren} as arguments
+     */
+    public static List<Class<?>> getClasses(String pkgName,
+            boolean includeChildren) {
+        return getClasses(pkgName, FindClasses.class.getClassLoader(),
+                includeChildren);
+    }
+
     private static void processDirectory(File directory, String pkgname,
             List<Class<?>> classes) {
         // Iterate through files in the directory

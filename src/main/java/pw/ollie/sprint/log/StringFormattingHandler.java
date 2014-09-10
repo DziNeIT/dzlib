@@ -87,6 +87,19 @@ public class StringFormattingHandler extends Handler {
         return this;
     }
 
+    public boolean hasFormatter(StringFormatter formatter) {
+        return formatters.contains(formatter);
+    }
+
+    public boolean hasFormatterType(Class<StringFormatter> type) {
+        for (StringFormatter formatter : formatters) {
+            if (formatter.getClass().equals(type)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public void flush() {
     }
