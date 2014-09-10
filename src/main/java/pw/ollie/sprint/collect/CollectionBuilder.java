@@ -165,7 +165,6 @@ public class CollectionBuilder<E> {
      * An alphabetically sorted enum of all significant {@link Collection}
      * implementations within the Java standard libraries.
      */
-    // why did i do this?
     public static enum CollectionType {
         ArrayBlockingQueue(ArrayBlockingQueue.class) {
             @Override
@@ -249,6 +248,12 @@ public class CollectionBuilder<E> {
             @Override
             public <E> Collection<E> instantiate() {
                 return new LinkedTransferQueue<>();
+            }
+        },
+        PagedArrayList(PagedArrayList.class) {
+            @Override
+            public <E> Collection<E> instantiate() {
+                return new PagedArrayList<>();
             }
         },
         PriorityBlockingQueue(PriorityBlockingQueue.class) {

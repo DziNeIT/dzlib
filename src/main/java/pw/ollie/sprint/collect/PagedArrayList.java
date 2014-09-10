@@ -39,10 +39,26 @@ import java.util.Map;
  * @param <E> the type of element stored
  */
 public class PagedArrayList<E> implements PagedList<E> {
+    /**
+     * The backing {@link List} used for this {@link PagedArrayList} to actually
+     * store elements.
+     */
     private final List<E> delegate;
+    /**
+     * A {@link Map} of pages for this {@link PagedList}.
+     */
     private final Map<Integer, List<E>> pages;
 
+    /**
+     * The amount of elements in a page, which defaults to 6.
+     */
     private int elementsPerPage = 6;
+    /**
+     * Whether to automatically refresh pages when an element is added to or
+     * removed from the {@link PagedArrayList}. If this is set to {@code false},
+     * the pages will be calculated in {@link #getPage(int)}.
+     */
+    private boolean autoRefresh = true;
 
     public PagedArrayList() {
         this.delegate = new ArrayList<>();
@@ -54,17 +70,35 @@ public class PagedArrayList<E> implements PagedList<E> {
         this.pages = new HashMap<>();
     }
 
+    @Override
     public List<E> getPage(int page) {
+        if (!autoRefresh) {
+            calculatePages();
+        }
         return pages.get(page);
     }
 
+    @Override
     public int getElementsPerPage() {
         return elementsPerPage;
     }
 
+    @Override
+    public boolean isAutoRefresh() {
+        return autoRefresh;
+    }
+
+    @Override
     public void setElementsPerPage(int elementsPerPage) {
         this.elementsPerPage = elementsPerPage;
-        calculatePages();
+        if (autoRefresh) {
+            calculatePages();
+        }
+    }
+
+    @Override
+    public void setAutoRefresh(boolean autoRefresh) {
+        this.autoRefresh = autoRefresh;
     }
 
     private void calculatePages() {
@@ -113,14 +147,18 @@ public class PagedArrayList<E> implements PagedList<E> {
     @Override
     public boolean add(E e) {
         boolean result = delegate.add(e);
-        calculatePages();
+        if (autoRefresh) {
+            calculatePages();
+        }
         return result;
     }
 
     @Override
     public boolean remove(Object o) {
         boolean result = delegate.remove(o);
-        calculatePages();
+        if (autoRefresh) {
+            calculatePages();
+        }
         return result;
     }
 
@@ -132,35 +170,45 @@ public class PagedArrayList<E> implements PagedList<E> {
     @Override
     public boolean addAll(Collection<? extends E> c) {
         boolean result = delegate.addAll(c);
-        calculatePages();
+        if (autoRefresh) {
+            calculatePages();
+        }
         return result;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
         boolean result = delegate.addAll(index, c);
-        calculatePages();
+        if (autoRefresh) {
+            calculatePages();
+        }
         return result;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
         boolean result = delegate.removeAll(c);
-        calculatePages();
+        if (autoRefresh) {
+            calculatePages();
+        }
         return result;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
         boolean result = delegate.retainAll(c);
-        calculatePages();
+        if (autoRefresh) {
+            calculatePages();
+        }
         return result;
     }
 
     @Override
     public void clear() {
         delegate.clear();
-        calculatePages();
+        if (autoRefresh) {
+            calculatePages();
+        }
     }
 
     @Override
@@ -171,20 +219,26 @@ public class PagedArrayList<E> implements PagedList<E> {
     @Override
     public E set(int index, E element) {
         E result = delegate.set(index, element);
-        calculatePages();
+        if (autoRefresh) {
+            calculatePages();
+        }
         return result;
     }
 
     @Override
     public void add(int index, E element) {
         delegate.add(index, element);
-        calculatePages();
+        if (autoRefresh) {
+            calculatePages();
+        }
     }
 
     @Override
     public E remove(int index) {
         E result = delegate.remove(index);
-        calculatePages();
+        if (autoRefresh) {
+            calculatePages();
+        }
         return result;
     }
 

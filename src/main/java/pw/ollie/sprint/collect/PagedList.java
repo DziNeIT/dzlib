@@ -35,5 +35,9 @@ public interface PagedList<E> extends List<E> {
 
     int getElementsPerPage();
 
+    boolean isAutoRefresh();
+
     void setElementsPerPage(int elementsPerPage);
+
+    void setAutoRefresh(boolean autoRefresh);
 }
