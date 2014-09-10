@@ -74,12 +74,16 @@ public class UnsafeReflection {
 
     private static boolean avoidUnsafe = true;
 
-    public static boolean avoidUnsafe() {
+    public static boolean isAvoidUnsafe() {
         return avoidUnsafe;
     }
 
-    public static void avoidUnsafe(boolean avoidUnsafe) {
-        UnsafeReflection.avoidUnsafe = avoidUnsafe;
+    public static void avoidUnsafe() {
+        avoidUnsafe = true;
+    }
+
+    public static void useUnsafe() {
+        avoidUnsafe = false;
     }
 
     /**

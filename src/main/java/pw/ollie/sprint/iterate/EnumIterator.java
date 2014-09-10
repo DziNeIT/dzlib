@@ -33,8 +33,7 @@ public class EnumIterator<E extends Enum> implements Iterator<E> {
     private final E[] array;
 
     public EnumIterator(Class<E> enumType) {
-        array = Util.getEnumValues(enumType);
-        backingIterator = new ArrayIterator<>(array);
+        this(Util.getEnumValues(enumType));
     }
 
     public EnumIterator(E[] array) {
