@@ -21,37 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package pw.ollie.sprint.test;
+package pw.ollie.sprint.collect;
 
-import org.junit.Assert;
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import pw.ollie.sprint.iterate.ArrayIterator;
-import pw.ollie.sprint.iterate.EnumIterator;
-import pw.ollie.sprint.util.MapBuilder.MapType;
+/**
+ * Contains utility methods for {@link Collection}s.
+ */
+public class CollectionUtil {
+    public static <T extends Collection<?>> T trimDuplicates(T collection) {
+        List<Object> noDuplicates = new ArrayList<>();
+        collection.forEach((object) -> {
+            if (noDuplicates.contains(object)) {
+                collection.remove(object);
+            } else {
+                noDuplicates.add(object);
+            }
+        });
+        return collection;
+    }
 
-public class IterationTest {
-    @Test
-    public void runTest() {
-        int expected = MapType.values().length;
-        EnumIterator<MapType> iterator = new EnumIterator<>(MapType.class);
-        int currentCount = 0;
-
-        while (iterator.hasNext()) {
-            currentCount++;
-            iterator.next();
-        }
-
-        Assert.assertEquals(expected, currentCount);
-
-        int currentArrayCount = 0;
-        ArrayIterator arrayIt = new ArrayIterator<>(MapType.values());
-
-        while (arrayIt.hasNext()) {
-            currentArrayCount++;
-            arrayIt.next();
-        }
-
-        Assert.assertEquals(currentArrayCount, currentCount);
+    private CollectionUtil() {
+        throw new UnsupportedOperationException();
     }
 }

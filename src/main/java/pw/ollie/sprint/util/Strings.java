@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 /**
  * Utility methods for manipulation of {@link String}s
@@ -42,6 +43,10 @@ import java.util.Random;
  */
 public class Strings {
     /**
+     * The {@link Pattern} used to escape regex in {@link String}s.
+     */
+    private static Pattern regexEscape = Pattern.compile("[^a-zA-Z0-9]");
+    /**
      * All the standard ASCII alphanumeric characters, both cases.
      */
     private static final char[] ALPHANUM = new char[] {
@@ -51,7 +56,6 @@ public class Strings {
             'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
             '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
     };
-
     /**
      * All the consonants, both cases. This isn't currently used.
      */
@@ -60,6 +64,16 @@ public class Strings {
             'r', 's', 't', 'v', 'w', 'x', 'z', 'B', 'C', 'D', 'F', 'G', 'H',
             'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Z'
     };
+
+    /**
+     * Escapes regex in the given {@link String}.
+     *
+     * @param s the {@link String} to escape regex in
+     * @return the given {@link String} with regex escaped
+     */
+    public static String escapeRegex(String s) {
+        return regexEscape.matcher(s).replaceAll("\\\\$0");
+    }
 
     /**
      * Gets all consonants. This method calls {@link Object#clone()} and thus

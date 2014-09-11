@@ -28,7 +28,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Used to apply a batch of {@link StringFormatter}s to a {@link String}.
+ */
 public class BatchStringFormatter implements StringFormatter {
+    /**
+     * The {@link List} of {@link StringFormatter}s.
+     */
     private List<StringFormatter> formatters;
 
     public BatchStringFormatter() {
