@@ -32,7 +32,7 @@ import java.util.List;
  */
 public class CollectionUtil {
     public static <T extends Collection<?>> T trimDuplicates(T collection) {
-        List<Object> noDuplicates = new ArrayList<>();
+        List<Object> noDuplicates = new ArrayList<>(collection.size());
         collection.forEach((object) -> {
             if (noDuplicates.contains(object)) {
                 collection.remove(object);
