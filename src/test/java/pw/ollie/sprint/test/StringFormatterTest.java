@@ -33,7 +33,10 @@ import pw.ollie.sprint.format.PrefixedStringFormatter;
 import pw.ollie.sprint.format.SuffixedStringFormatter;
 import pw.ollie.sprint.format.TrimmingStringFormatter;
 import pw.ollie.sprint.format.UpperCaseStringFormatter;
+import pw.ollie.sprint.log.StringFormattingHandler;
 import pw.ollie.sprint.util.Strings;
+
+import java.util.logging.Logger;
 
 public class StringFormatterTest {
     @Test
@@ -66,5 +69,10 @@ public class StringFormatterTest {
         BatchStringFormatter batch = new BatchStringFormatter();
         batch.add(uc).add(prefixed).add(suffixed);
         Assert.assertEquals(batch.format("tester"), "BOB TESTER NO");
+
+        Logger logger = Logger.getLogger("Test");
+        StringFormattingHandler handler = StringFormattingHandler
+                .forLogger(logger, same, batch);
+        // TODO: how to test logger output without complex shizzle wizzle
     }
 }

@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 /**
  * A logging {@link Handler} which applies one or more {@link StringFormatter}s'
@@ -107,5 +108,12 @@ public class StringFormattingHandler extends Handler {
     @Override
     public void close() throws SecurityException {
         formatters.clear();
+    }
+
+    public static StringFormattingHandler forLogger(Logger logger,
+            StringFormatter... formatters) {
+        StringFormattingHandler ret = new StringFormattingHandler(formatters);
+        logger.addHandler(ret);
+        return ret;
     }
 }

@@ -21,55 +21,71 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package pw.ollie.sprint.format;
+package pw.ollie.sprint.iterate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
+import java.util.ListIterator;
 
-/**
- * Used to apply a batch of {@link StringFormatter}s to a {@link String}.
- */
-public class BatchStringFormatter implements StringFormatter {
-    /**
-     * The {@link List} of {@link StringFormatter}s.
-     */
-    private List<StringFormatter> formatters;
+public class UnmodifiableListIterator<E> implements ListIterator<E> {
+    private final List<E> list;
 
-    public BatchStringFormatter() {
-        this.formatters = new ArrayList<>();
+    private int index = 0;
+
+    public UnmodifiableListIterator(List<E> list) {
+        this.list = new ArrayList<>(list);
     }
 
-    public BatchStringFormatter(Collection<StringFormatter> formatters) {
-        this.formatters = new ArrayList<>(formatters);
-    }
-
-    public BatchStringFormatter(StringFormatter... formatters) {
-        this.formatters = new ArrayList<>(Arrays.asList(formatters));
+    public UnmodifiableListIterator(List<E> list, int index) {
+        this(list);
+        this.index = index;
     }
 
     @Override
-    public String format(String intake) {
-        if (formatters == null || formatters.isEmpty()) {
-            return intake;
-        }
-        for (StringFormatter formatter : formatters) {
-            intake = formatter.format(intake);
-        }
-        return intake;
+    public boolean hasNext() {
+        return list.size() > index;
     }
 
-    public BatchStringFormatter add(StringFormatter formatter) {
-        if (formatter == this) {
-            throw new IllegalArgumentException();
-        }
-        formatters.add(formatter);
-        return this;
+    @Override
+    public E next() {
+        return list.get(index++);
     }
 
-    public BatchStringFormatter remove(StringFormatter formatter) {
-        formatters.remove(formatter);
-        return this;
+    @Override
+    public boolean hasPrevious() {
+        return index > 1;
+    }
+
+    @Override
+    public E previous() {
+        if (!hasPrevious()) {
+            throw new IllegalStateException();
+        }
+        return list.get(--index);
+    }
+
+    @Override
+    public int nextIndex() {
+        return index;
+    }
+
+    @Override
+    public int previousIndex() {
+        return index - 1;
+    }
+
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void set(E e) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void add(E e) {
+        throw new UnsupportedOperationException();
     }
 }
