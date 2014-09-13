@@ -38,9 +38,9 @@ import java.util.Map;
  *
  * @param <E> the type of element stored
  */
-public class PagedArrayList<E> implements PagedList<E> {
+public class SimplePagedList<E> implements PagedList<E> {
     /**
-     * The backing {@link List} used for this {@link PagedArrayList} to actually
+     * The backing {@link List} used for this {@link SimplePagedList} to actually
      * store elements.
      */
     private final List<E> delegate;
@@ -55,24 +55,27 @@ public class PagedArrayList<E> implements PagedList<E> {
     private int elementsPerPage = 6;
     /**
      * Whether to automatically refresh pages when an element is added to or
-     * removed from the {@link PagedArrayList}. If this is set to {@code false},
+     * removed from the {@link SimplePagedList}. If this is set to {@code false},
      * the pages will be calculated in {@link #getPage(int)}.
      */
     private boolean autoRefresh = true;
+    /**
+     * Whether to refresh pages when {@link #getPage(int)} is called.
+     */
+    private boolean refreshOnGet = false;
 
-    public PagedArrayList() {
-        this.delegate = new ArrayList<>();
-        this.pages = new HashMap<>();
+    public SimplePagedList() {
+        this(new ArrayList<>());
     }
 
-    public PagedArrayList(List<E> delegate) {
-        this.delegate = new ArrayList<>(delegate);
+    public SimplePagedList(List<E> delegate) {
+        this.delegate = delegate;
         this.pages = new HashMap<>();
     }
 
     @Override
-    public List<E> getPage(int page) {
-        if (!autoRefresh) {
+    public synchronized List<E> getPage(int page) {
+        if (refreshOnGet) {
             calculatePages();
         }
         return pages.get(page);
@@ -89,6 +92,11 @@ public class PagedArrayList<E> implements PagedList<E> {
     }
 
     @Override
+    public boolean isRefreshOnGet() {
+        return refreshOnGet;
+    }
+
+    @Override
     public void setElementsPerPage(int elementsPerPage) {
         this.elementsPerPage = elementsPerPage;
         if (autoRefresh) {
@@ -101,12 +109,23 @@ public class PagedArrayList<E> implements PagedList<E> {
         this.autoRefresh = autoRefresh;
     }
 
-    private void calculatePages() {
+    @Override
+    public void setRefreshOnGet(boolean refreshOnGet) {
+        this.refreshOnGet = refreshOnGet;
+    }
+
+    public void recalculatePages() {
+        calculatePages();
+    }
+
+    // synchronized to prevent pages being calculated multiple times at once
+    // due to how calculatePages() works this would cause big problems
+    private synchronized void calculatePages() {
+        pages.clear();
         if (isEmpty()) {
             return;
         }
 
-        pages.clear();
         int amtPages = (int) Math.ceil(size() / elementsPerPage);
         for (int page = 1; page <= amtPages; page++) {
             int pageStart = (page - 1) * elementsPerPage;

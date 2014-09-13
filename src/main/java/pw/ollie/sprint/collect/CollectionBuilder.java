@@ -257,10 +257,10 @@ public class CollectionBuilder<E> {
                 return new LinkedTransferQueue<>();
             }
         },
-        PagedArrayList(PagedArrayList.class) {
+        PagedArrayList(SimplePagedList.class) {
             @Override
             public <E> Collection<E> instantiate() {
-                return new PagedArrayList<>();
+                return new SimplePagedList<>();
             }
         },
         PriorityBlockingQueue(PriorityBlockingQueue.class) {
