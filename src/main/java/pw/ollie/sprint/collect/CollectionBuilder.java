@@ -23,18 +23,8 @@
  */
 package pw.ollie.sprint.collect;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Stack;
-import java.util.TreeSet;
-import java.util.Vector;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -101,27 +91,32 @@ public class CollectionBuilder<E> {
      * @param element the element to add
      * @return this {@link CollectionBuilder} object
      */
-    public CollectionBuilder add(E element) {
+    public CollectionBuilder<E> add(E element) {
         elements.add(element);
         return this;
     }
 
     /**
      * Adds all of the given objects, which <em>MUST</em> be of type E, to the
-     * builder. Should any element given not be of type E, you <em>WILL</em> get
-     * {@link ClassCastException}.
+     * builder. To prevent {@link ClassCastException}, this method should only
+     * be called directly. Things like the following:
+     *
+     * <code>
+     *     public CollectionBuilder<E> add(E first, E second) {
+     *         return builder.add(first, second);
+     *     }
+     * </code>
+     *
+     * Are not a good idea.
      *
      * @param elements the elements to add
      * @return this {@link CollectionBuilder} object
      */
-    @SuppressWarnings("unchecked") // if someone is that stupid it's their fault
-    public CollectionBuilder add(Object... elements) {
+    public CollectionBuilder<E> add(E... elements) {
         if (elements == null || elements.length < 1) {
             throw new IllegalArgumentException();
         }
-        for (Object object : elements) {
-            add((E) object);
-        }
+        Collections.addAll(this.elements, elements);
         return this;
     }
 
@@ -131,7 +126,7 @@ public class CollectionBuilder<E> {
      *
      * @return this {@link CollectionBuilder} object
      */
-    public CollectionBuilder sort() {
+    public CollectionBuilder<E> sort() {
         if (elements instanceof List) {
             Collections.sort((List) elements);
         }
@@ -297,8 +292,16 @@ public class CollectionBuilder<E> {
 
         CollectionType(Class<? extends Collection> type) {
             this.type = type;
+            byType.put(type, this);
         }
 
         public abstract <E> Collection<E> instantiate();
+
+        public static CollectionType fromClass(
+                Class<? extends Collection> clazz) {
+            return byType.get(clazz);
+        }
     }
+
+    private static final Map<Class<? extends Collection>, CollectionType> byType = new HashMap<>();
 }
