@@ -110,16 +110,7 @@ public class CollectionBuilder<E> {
 
     /**
      * Adds all of the given objects, which <em>MUST</em> be of type E, to the
-     * builder. To prevent {@link ClassCastException}, this method should only
-     * be called directly. Things like the following:
-     *
-     * <code>
-     *     public CollectionBuilder<E> add(E first, E second) {
-     *         return builder.add(first, second);
-     *     }
-     * </code>
-     *
-     * Are not a good idea.
+     * builder.
      *
      * @param elements the elements to add
      * @return this {@link CollectionBuilder} object
@@ -257,7 +248,7 @@ public class CollectionBuilder<E> {
                 return new LinkedTransferQueue<>();
             }
         },
-        PagedArrayList(SimplePagedList.class) {
+        SimplePagedList(SimplePagedList.class) {
             @Override
             public <E> Collection<E> instantiate() {
                 return new SimplePagedList<>();
@@ -309,8 +300,7 @@ public class CollectionBuilder<E> {
 
         public abstract <E> Collection<E> instantiate();
 
-        public static CollectionType fromClass(
-                Class<? extends Collection> clazz) {
+        public static CollectionType get(Class<? extends Collection> clazz) {
             return byType.get(clazz);
         }
     }
