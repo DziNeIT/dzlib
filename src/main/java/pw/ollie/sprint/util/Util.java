@@ -44,9 +44,7 @@ public final class Util {
     }
 
     /**
-     * Creates a {@link List} from the given objects. Note that all of the given
-     * objects should be instanceof E, otherwise you <em>WILL</em> get a {@link
-     * ClassCastException} using this method.
+     * Creates a {@link List} from the given objects.
      *
      * @param objs the objects to make a {@link List} from
      * @return an {@link ArrayList} of given keys

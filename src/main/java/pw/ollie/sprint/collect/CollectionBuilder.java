@@ -295,15 +295,15 @@ public class CollectionBuilder<E> {
 
         CollectionType(Class<? extends Collection> type) {
             this.type = type;
-            byType.put(type, this);
+            types.put(type, this);
         }
 
         public abstract <E> Collection<E> instantiate();
 
         public static CollectionType get(Class<? extends Collection> clazz) {
-            return byType.get(clazz);
+            return types.get(clazz);
         }
     }
 
-    private static final Map<Class<? extends Collection>, CollectionType> byType = new HashMap<>();
+    private static final Map<Class<? extends Collection>, CollectionType> types = new HashMap<>();
 }

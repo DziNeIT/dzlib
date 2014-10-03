@@ -49,7 +49,7 @@ public class UnsafeReflection {
             .getReflectionFactory();
 
     private static final String MODIFIERS_FIELD = "modifiers";
-    private static final Field stringValField;
+    private static final Field STRING_VALUE_FIELD;
 
     static {
         Field temp = null;
@@ -66,9 +66,9 @@ public class UnsafeReflection {
 
         if (temp != null) {
             temp.setAccessible(true);
-            stringValField = temp;
+            STRING_VALUE_FIELD = temp;
         } else {
-            stringValField = null;
+            STRING_VALUE_FIELD = null;
         }
     }
 
@@ -132,7 +132,7 @@ public class UnsafeReflection {
      */
     public static void modifyString(String string, char[] newVal) {
         try {
-            stringValField.set(string, newVal);
+            STRING_VALUE_FIELD.set(string, newVal);
         } catch (IllegalAccessException e) {
             throw new ReflectException(e);
         }

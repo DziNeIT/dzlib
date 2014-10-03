@@ -29,8 +29,8 @@ import java.util.concurrent.ThreadLocalRandom;
  * General utility methods for helping with concurrency.
  */
 public class ConcurrencyHelper {
-    public static <T> SingleValueFuture<T> singleValueFuture(T value) {
-        return new SingleValueFuture<>(value);
+    public static <T> ConstantFuture<T> constantFuture(T value) {
+        return new ConstantFuture<>(value);
     }
 
     public static ThreadLocalRandom concurrentRandom() {

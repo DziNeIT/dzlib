@@ -21,33 +21,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package pw.ollie.sprint.iterate;
+package pw.ollie.sprint.concurrent;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
-public class UnmodifiableCollectionIterator<E> implements Iterator<E> {
-    private final Object[] array;
+/**
+ * An implementation of {@link Future} which has a single, constant, value - it
+ * will never change. Can be used in situations where a {@link Future} is taken
+ * as a parameter but no task is needed to determine the value.
+ *
+ * @param <T> the type of the {@link ConstantFuture}
+ */
+public class ConstantFuture<T> implements Future<T> {
+    private final T value;
 
-    private int index = 0;
-
-    public UnmodifiableCollectionIterator(Collection<E> collection) {
-        array = collection.toArray(new Object[collection.size()]);
+    public ConstantFuture(T value) {
+        this.value = value;
     }
 
     @Override
-    public boolean hasNext() {
-        return array.length > index;
+    public boolean cancel(boolean mayInterruptIfRunning) {
+        return false;
     }
 
     @Override
-    public E next() {
-        // yolo unchecked cast
-        return (E) array[index++];
+    public boolean isCancelled() {
+        return false;
     }
 
     @Override
-    public void remove() {
-        throw new UnsupportedOperationException();
+    public boolean isDone() {
+        return true;
+    }
+
+    @Override
+    public T get() throws InterruptedException, ExecutionException {
+        return value;
+    }
+
+    @Override
+    public T get(long timeout, TimeUnit unit)
+            throws InterruptedException, ExecutionException, TimeoutException {
+        return value;
     }
 }

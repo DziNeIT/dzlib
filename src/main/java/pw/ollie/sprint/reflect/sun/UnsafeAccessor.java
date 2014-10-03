@@ -26,6 +26,7 @@ package pw.ollie.sprint.reflect.sun;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 /**
  * Provides access to {@link sun.misc.Unsafe}. Should only be used in very rare
@@ -39,18 +40,7 @@ public class UnsafeAccessor {
     /**
      * The {@link Class} object for {@link Unsafe}.
      */
-    public static final Class<Unsafe> unsafeType = Unsafe.class;
-
-    /**
-     * An iterate of possible field names for the instance of {@link Unsafe}. This
-     * is used because on different JVMs, the field name for {@link Unsafe}'s
-     * instance may be different - for example, on Dalvik the field name is
-     * THE_ONE, but on the Hotspot JVM, the field is {@link Unsafe#theUnsafe}.
-     */
-    private static final String[] FIELD_NAMES = {
-            "theUnsafe", // Oracle JVM
-            "THE_ONE" // Dalvik JVM
-    };
+    public static final Class<Unsafe> UNSAFE_CLASS = Unsafe.class;
 
     /**
      * The {@link sun.misc.Unsafe} instance. Do not use this unless you know
@@ -78,23 +68,26 @@ public class UnsafeAccessor {
      * @return the {@link sun.misc.Unsafe} instance, or null if not available
      */
     public static Unsafe get() {
-        if (unsafe != null || failed) {
-            return unsafe;
-        }
+        if (unsafe == null && !failed) {
+            for (Field field : UNSAFE_CLASS.getDeclaredFields()) {
+                if (!field.getType().equals(UNSAFE_CLASS) || !Modifier
+                        .isStatic(field.getModifiers())) {
+                    continue;
+                }
 
-        for (String fieldName : FIELD_NAMES) {
-            try {
-                Field field = unsafeType.getDeclaredField(fieldName);
-                boolean previous = field.isAccessible();
-                field.setAccessible(true);
-                unsafe = (Unsafe) field.get(null);
-                field.setAccessible(previous);
-            } catch (Exception ignore) {
+                try {
+                    boolean previous = field.isAccessible();
+                    field.setAccessible(true);
+                    unsafe = (Unsafe) field.get(null);
+                    field.setAccessible(previous);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
-        }
 
-        if (unsafe == null) {
-            failed = true;
+            if (unsafe == null) {
+                failed = true;
+            }
         }
 
         return unsafe;
