@@ -36,4 +36,8 @@ public class ConcurrencyHelper {
     public static ThreadLocalRandom concurrentRandom() {
         return ThreadLocalRandom.current();
     }
+
+    private ConcurrencyHelper() {
+        throw new UnsupportedOperationException("ffs lads");
+    }
 }

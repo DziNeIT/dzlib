@@ -60,10 +60,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * Or this:
  *
  * <code>
- *     Map<String, String> map = new MapBuilder<>()
- *                                   .with("mystring", "myvalue").with("string2", "value")
- *                                   .with("stringification", "this method works").with("this is great", "builders rock")
- *                                   .build();
+ * Map<String, String> map = new MapBuilder<>()
+ *                       .with("mystring", "myvalue").with("string2", "value")
+ *                       .with("stringification", "this method works").with("this is great", "builders rock")
+ *                       .build();
  * </code>
  *
  * The above list util method is {@link Util#list(Object[])}. Note that the
@@ -465,32 +465,69 @@ public final class MapBuilder<K, V> {
         }
     }
 
-    // TODO: document
-
+    /**
+     * Create a new {@link MapBuilder} object of the given key and value types.
+     *
+     * @param <K> the type of key for the builder's map
+     * @param <V> the type of value for the builder's map
+     * @return a new {@link MapBuilder}
+     */
     public static <K, V> MapBuilder<K, V> builder() {
         return new MapBuilder<>();
     }
 
-    public static <K, V> MapBuilder<K, V> concurrent() {
-        return new MapBuilder<>(MapType.ConcurrentHashMap);
-    }
-
+    /**
+     * Creates a new {@link MapBuilder} object of type {@link MapType#HashMap}
+     * and the given initial size. Can be used to prevent expansion costs.
+     *
+     * @param initialSize the initial size of the builder
+     * @param <K> the type of key for the builder's map
+     * @param <V> the type of value for the builder's map
+     * @return a new {@link MapBuilder} with the given {@code initialSize}
+     */
     public static <K, V> MapBuilder<K, V> builder(int initialSize) {
         return new MapBuilder<>(MapType.HashMap, initialSize);
     }
 
-    public static <K, V> MapBuilder<K, V> concurrent(int initialSize) {
-        return new MapBuilder<>(MapType.ConcurrentHashMap, initialSize);
-    }
-
+    /**
+     * Creates a new {@link MapBuilder} object of the given {@link MapType},
+     * with the given key and value types.
+     *
+     * @param type the {@link MapType} for the type of {@link Map} to use
+     * @param <K> the type of key for the builder's map
+     * @param <V> the type of value for the builder's map
+     * @return a new {@link MapBuilder} of the given {@code type}
+     */
     public static <K, V> MapBuilder<K, V> builder(MapType type) {
         return new MapBuilder<>(type);
     }
 
+    /**
+     * Creates a new {@link MapBuilder} which wraps the given {@link Map}, also
+     * finding the {@link MapType} for the given {@link Map} if there is one.
+     *
+     * @param map the {@link Map} to use for the builder
+     * @param <K> the type of key for the builder's map
+     * @param <V> the type of value for the builder's map
+     * @return a new {@link MapBuilder} wrapping the given {@link Map}
+     */
     public static <K, V> MapBuilder builder(Map<K, V> map) {
         return new MapBuilder<>(map);
     }
 
+    /**
+     * Creates a new {@link MapBuilder} wrapping the given {@link Map}, but
+     * without looking up the {@link MapType} for the {@link Map}. This is
+     * literally never necessary, unless you are literally in a situation where
+     * a map lookup & call to {@link #getClass()} is too much. If you have to
+     * use this you probably have other, bigger problems.
+     *
+     * @param map the {@link Map} to wrap
+     * @param <K> the type of key for the builder's map
+     * @param <V> the type of value for the builder's map
+     * @return a new {@link MapBuilder} wrapping the given {@link Map}
+     * @see {@link MapBuilder#MapBuilder(Map, boolean)}
+     */
     public static <K, V> MapBuilder<K, V> rawBuilder(Map<K, V> map) {
         return new MapBuilder<>(map, true);
     }

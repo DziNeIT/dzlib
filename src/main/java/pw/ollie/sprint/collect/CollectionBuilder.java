@@ -23,31 +23,11 @@
  */
 package pw.ollie.sprint.collect;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Stack;
-import java.util.TreeSet;
-import java.util.Vector;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.LinkedTransferQueue;
-import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.SynchronousQueue;
 
 /**
  * Utility for building {@link Collection}s. Many different implementations of
@@ -56,21 +36,13 @@ import java.util.concurrent.SynchronousQueue;
  *
  * @param <E> the type for the {@link Collection} being build
  */
-public class CollectionBuilder<E> {
+public class CollectionBuilder<T extends Collection<E>, E> {
     /**
      * The elements build in the {@link CollectionBuilder} so far. These are
      * stored in an {@link ArrayList} by default to make sure that the order is
      * retained in case it is needed by the user.
      */
-    private final Collection<E> elements;
-
-    /**
-     * Constructs a new {@link CollectionBuilder}, defaulting to the usage of an
-     * {@link ArrayList} for elements.
-     */
-    public CollectionBuilder() {
-        this.elements = new ArrayList<>();
-    }
+    private final T elements;
 
     /**
      * Constructs a new {@link CollectionBuilder}, using a {@link Collection} of
@@ -78,7 +50,7 @@ public class CollectionBuilder<E> {
      *
      * @param collectionType the type of {@link Collection} to use
      */
-    public CollectionBuilder(CollectionType collectionType) {
+    public CollectionBuilder(CollectionType<T> collectionType) {
         this.elements = collectionType.instantiate();
     }
 
@@ -91,7 +63,7 @@ public class CollectionBuilder<E> {
      *
      * @param backing the {@link Collection} to use to store built elements
      */
-    public CollectionBuilder(Collection<E> backing) {
+    public CollectionBuilder(T backing) {
         this.elements = backing;
     }
 
@@ -103,7 +75,7 @@ public class CollectionBuilder<E> {
      * @param element the element to add
      * @return this {@link CollectionBuilder} object
      */
-    public CollectionBuilder<E> add(E element) {
+    public CollectionBuilder<T, E> add(E element) {
         elements.add(element);
         return this;
     }
@@ -115,7 +87,7 @@ public class CollectionBuilder<E> {
      * @param elements the elements to add
      * @return this {@link CollectionBuilder} object
      */
-    public CollectionBuilder<E> add(E... elements) {
+    public CollectionBuilder<T, E> add(E... elements) {
         if (elements == null || elements.length < 1) {
             throw new IllegalArgumentException();
         }
@@ -125,15 +97,42 @@ public class CollectionBuilder<E> {
 
     /**
      * Sorts the elements of this {@link CollectionBuilder}, ONLY if the backing
-     * {@link Collection} being used is an {@link ArrayList}.
+     * {@link Collection} being used is a {@link List}.
      *
      * @return this {@link CollectionBuilder} object
+     * @see {@link Collections#sort(List)}
      */
-    public CollectionBuilder<E> sort() {
+    public CollectionBuilder<T, E> sort() {
         if (elements instanceof List) {
             Collections.sort((List) elements);
         }
         return this;
+    }
+
+    /**
+     * Sorts the elements of this {@link CollectionBuilder}, ONLY if the backing
+     * {@link Collection} being used is a {@link List}. The {@code comparator}
+     * given is used to compare elements.
+     *
+     * @param comparator the {@link Comparator} to compare elements
+     * @return this {@link CollectionBuilder} object
+     * @see {@link Collections#sort(List, Comparator)}
+     */
+    public CollectionBuilder<T, E> sort(Comparator<E> comparator) {
+        if (elements instanceof List) {
+            Collections.sort((List) elements, comparator);
+        }
+        return this;
+    }
+
+    /**
+     * Gets a {@link Collection} containing all of the elements added to this
+     * builder.
+     *
+     * @return a {@link Collection} containing all built elements
+     */
+    public T build() {
+        return elements;
     }
 
     /**
@@ -143,167 +142,9 @@ public class CollectionBuilder<E> {
      * @param type the {@link CollectionType} to use
      * @return a {@link Collection} of elements added to this builder
      */
-    public Collection<E> build(CollectionType type) {
-        Collection<E> result = type.instantiate();
+    public <C extends Collection<E>> C build(CollectionType<C> type) {
+        C result = type.instantiate();
         result.addAll(elements);
         return result;
     }
-
-    /**
-     * Gets a {@link Collection} containing all of the elements added to this
-     * builder.
-     *
-     * @return a {@link Collection} containing all built elements
-     */
-    public Collection<E> build() {
-        return elements;
-    }
-
-    /**
-     * An alphabetically sorted enum of all significant {@link Collection}
-     * implementations within the Java standard libraries.
-     */
-    public static enum CollectionType {
-        ArrayBlockingQueue(ArrayBlockingQueue.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new ArrayBlockingQueue<>(16);
-            }
-        },
-        ArrayDeque(ArrayDeque.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new ArrayDeque<>();
-            }
-        },
-        ArrayList(ArrayList.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new ArrayList<>();
-            }
-        },
-        ConcurrentLinkedDeque(ConcurrentLinkedDeque.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new ConcurrentLinkedDeque<>();
-            }
-        },
-        ConcurrentLinkedQueue(ConcurrentLinkedQueue.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new ConcurrentLinkedQueue<>();
-            }
-        },
-        ConcurrentSkipListSet(ConcurrentSkipListSet.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new ConcurrentSkipListSet<>();
-            }
-        },
-        CopyOnWriteArrayList(CopyOnWriteArrayList.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new CopyOnWriteArrayList<>();
-            }
-        },
-        CopyOnWriteArraySet(CopyOnWriteArraySet.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new CopyOnWriteArraySet<>();
-            }
-        },
-        HashSet(HashSet.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new HashSet<>();
-            }
-        },
-        LinkedBlockingDeque(LinkedBlockingDeque.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new LinkedBlockingDeque<>();
-            }
-        },
-        LinkedBlockingQueue(LinkedBlockingQueue.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new LinkedBlockingQueue<>();
-            }
-        },
-        LinkedHashSet(LinkedHashSet.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new LinkedHashSet<>();
-            }
-        },
-        LinkedList(LinkedList.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new LinkedList<>();
-            }
-        },
-        LinkedTransferQueue(LinkedTransferQueue.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new LinkedTransferQueue<>();
-            }
-        },
-        SimplePagedList(SimplePagedList.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new SimplePagedList<>();
-            }
-        },
-        PriorityBlockingQueue(PriorityBlockingQueue.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new PriorityBlockingQueue<>();
-            }
-        },
-        PriorityQueue(PriorityQueue.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new PriorityQueue<>();
-            }
-        },
-        SynchronousQueue(SynchronousQueue.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new SynchronousQueue<>();
-            }
-        },
-        Stack(Stack.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new Stack<>();
-            }
-        },
-        TreeSet(TreeSet.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new TreeSet<>();
-            }
-        },
-        Vector(Vector.class) {
-            @Override
-            public <E> Collection<E> instantiate() {
-                return new Vector<>();
-            }
-        };
-
-        private final Class<? extends Collection> type;
-
-        CollectionType(Class<? extends Collection> type) {
-            this.type = type;
-            types.put(type, this);
-        }
-
-        public abstract <E> Collection<E> instantiate();
-
-        public static CollectionType get(Class<? extends Collection> clazz) {
-            return types.get(clazz);
-        }
-    }
-
-    private static final Map<Class<? extends Collection>, CollectionType> types = new HashMap<>();
 }
