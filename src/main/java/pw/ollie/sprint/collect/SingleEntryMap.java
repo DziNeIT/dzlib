@@ -23,10 +23,9 @@
  */
 package pw.ollie.sprint.collect;
 
-import pw.ollie.sprint.collect.CollectionBuilder.CollectionType;
-
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -109,25 +108,26 @@ public class SingleEntryMap<K, V> implements Map<K, V> {
 
     @Override
     public Set<K> keySet() {
-        return (Set<K>) new CollectionBuilder<K>(CollectionType.HashSet)
-                .add(entry.getKey()).build();
+        Set<K> result = new HashSet<>();
+        result.add(entry.getKey());
+        return result;
     }
 
     @Override
     public Collection<V> values() {
-        return new CollectionBuilder<V>(CollectionType.HashSet)
-                .add(entry.getValue()).build();
+        Set<V> result = new HashSet<>();
+        result.add(entry.getValue());
+        return result;
     }
 
     @Override
     public Set<Entry<K, V>> entrySet() {
-        CollectionBuilder<Entry<K, V>> cb = new CollectionBuilder<>(
-                CollectionType.HashSet);
+        Set<Entry<K, V>> result = new HashSet<>();
         if (immutable) {
-            cb.add(new SimpleEntry<>(entry.getKey(), entry.getValue()));
+            result.add(new SimpleEntry<>(entry.getKey(), entry.getValue()));
         } else {
-            cb.add(entry);
+            result.add(entry);
         }
-        return (Set<Entry<K, V>>) cb.build();
+        return result;
     }
 }

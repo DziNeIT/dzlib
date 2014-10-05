@@ -36,7 +36,7 @@ import java.util.List;
  *
  * @param <E> the type for the {@link Collection} being build
  */
-public class CollectionBuilder<T extends Collection<E>, E> {
+public class CollectionBuilder<T extends Collection, E> {
     /**
      * The elements build in the {@link CollectionBuilder} so far. These are
      * stored in an {@link ArrayList} by default to make sure that the order is
@@ -133,6 +133,10 @@ public class CollectionBuilder<T extends Collection<E>, E> {
      */
     public T build() {
         return elements;
+    }
+
+    public Collection<E> toImmutableCollection() {
+        return Collections.unmodifiableCollection(elements);
     }
 
     /**

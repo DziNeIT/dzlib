@@ -26,7 +26,7 @@ package pw.ollie.sprint.test;
 import org.junit.Assert;
 import org.junit.Test;
 
-import pw.ollie.sprint.util.MapBuilder;
+import pw.ollie.sprint.collect.MapBuilder;
 import pw.ollie.sprint.util.Util;
 
 import java.util.HashMap;
