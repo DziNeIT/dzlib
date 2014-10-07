@@ -162,6 +162,9 @@ public class Strings {
      * Checks whether the given {@code str} {@link String} starts with the given
      * {@code prefix} {@link String}, ignoring case.
      *
+     * Credit <a href="https://github.com/flow/flow-commons">flow-commons</a>
+     * for using a method which avoids bounds checks which I then used too.
+     *
      * @param str the main string
      * @param prefix the string to test for the presence of
      * @return whether {@code str} starts with {@code prefix} ignoring case
@@ -171,11 +174,14 @@ public class Strings {
             return false;
         }
 
-        for (int i = 0; i < prefix.length(); i++) {
-            if (!equalsIgnoreCase(prefix.charAt(i), str.charAt(i))) {
+        final char[] inputCharArray = str.toCharArray();
+        final char[] prefixCharArray = prefix.toCharArray();
+        for (int i = 0; i < prefixCharArray.length; i++) {
+            if (!equalsIgnoreCase(prefixCharArray[i], inputCharArray[i])) {
                 return false;
             }
         }
+
         return true;
     }
 
