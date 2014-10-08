@@ -135,6 +135,14 @@ public class CollectionBuilder<T extends Collection, E> {
         return elements;
     }
 
+    /**
+     * Builds an immutable {@link Collection} containing all of the elements
+     * which are contained in this {@link CollectionBuilder}. {@link
+     * Collections#unmodifiableCollection(Collection)} is used to acquire the
+     * unmodifiable {@link Collection}.
+     *
+     * @return an immutable Collection of elements in this CollectionBuilder
+     */
     public Collection<E> toImmutableCollection() {
         return Collections.unmodifiableCollection(elements);
     }
@@ -146,8 +154,8 @@ public class CollectionBuilder<T extends Collection, E> {
      * @param type the {@link CollectionType} to use
      * @return a {@link Collection} of elements added to this builder
      */
-    public <C extends Collection<E>> C build(CollectionType<C> type) {
-        C result = type.instantiate();
+    public T build(CollectionType<T> type) {
+        T result = type.instantiate();
         result.addAll(elements);
         return result;
     }
