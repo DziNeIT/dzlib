@@ -23,14 +23,12 @@
  */
 package pw.ollie.sprint.reflect.sun;
 
-import sun.reflect.ReflectionFactory;
-
 import pw.ollie.sprint.reflect.ReflectException;
 
 /**
  * Utility for creating objects without calling their constructor. Note that
- * this makes use of the {@link ReflectionFactory} in sun.reflect and therefore
- * is not guaranteed to work on all JVMs.
+ * whether or not usage of {@link sun.misc.Unsafe} is avoided, this class will
+ * not work on all JVMs (sun.reflect is used even when avoiding Unsafe).
  *
  * sun.reflect code from http://www.javaspecialists.eu/archive/Issue175.html
  *
@@ -39,10 +37,7 @@ import pw.ollie.sprint.reflect.ReflectException;
  */
 public class SilentInstantiator {
     /**
-     * Creates a new object of type T, assuming that the superclass of said
-     * object is {@link Object}. Note that a superclass is not required if the
-     * {@link sun.misc.Unsafe} object is available, as said object is used
-     * instead of sun.reflect.
+     * Creates a new object of type T, without calling the constructor.
      *
      * @param clazz the class to silently create an instance of
      * @param <T> the type which the class is
@@ -54,13 +49,26 @@ public class SilentInstantiator {
     }
 
     /**
+     * Creates a new object of type T, without calling the constructor.
+     *
+     * @param clazz the {@link Class} of the type to silently instantiate
+     * @param useUnsafe whether to attempt to use {@link sun.misc.Unsafe}
+     * @param <T> the type of the class to instantiate
+     * @return an instance of the given class, no constructor called
+     */
+    public static <T> T create(Class<T> clazz, boolean useUnsafe) {
+        return create(clazz, Object.class, useUnsafe);
+    }
+
+    /**
      * Creates a new object of type T, without calling the constructor. If an
      * {@link sun.misc.Unsafe} instance is available, it will be used by this
      * method. Otherwise, sun.reflect is used to create a serialization
      * constructor to create an object.
      *
      * @param clazz the class to silently create an instance of
-     * @param parent the superclass of the class to create an instance of
+     * @param parent a superclass of the class of which we do want the
+     *        constructor called. Most of the time this can be Object.class
      * @param <T> the type which the class is
      * @return an instance of the given class, created without calling any
      *         constructor
@@ -77,7 +85,8 @@ public class SilentInstantiator {
      * constructor to create an object.
      *
      * @param clazz the class to silently create an instance of
-     * @param parent the superclass of the class to create an instance of
+     * @param parent a superclass of the class of which we do want the
+     *        constructor called. Most of the time this can be Object.class
      * @param useUnsafe whether to attempt to use {@link sun.misc.Unsafe}
      * @param <T> the type which the class is
      * @return an instance of the given class, created without calling any
