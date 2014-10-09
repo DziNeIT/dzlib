@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Represents an implementation of the Java {@link Map} interface. Used for
- * {@link MapBuilder}.
+ * {@link pw.ollie.sprint.collect.builder.MapBuilder}.
  */
 public abstract class MapType {
     /**

@@ -21,7 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package pw.ollie.sprint.collect;
+package pw.ollie.sprint.collect.builder;
+
+import pw.ollie.sprint.collect.CollectionType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,7 +48,7 @@ public class CollectionBuilder<T extends Collection, E> {
 
     /**
      * Constructs a new {@link CollectionBuilder}, using a {@link Collection} of
-     * the given {@link CollectionType} for building.
+     * the given {@link pw.ollie.sprint.collect.CollectionType} for building.
      *
      * @param collectionType the type of {@link Collection} to use
      */

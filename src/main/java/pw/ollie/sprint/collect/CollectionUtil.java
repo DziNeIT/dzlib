@@ -28,9 +28,18 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Contains utility methods for {@link Collection}s.
+ * Contains various utility methods for {@link Collection}s.
  */
-public class CollectionUtil {
+public final class CollectionUtil {
+    /**
+     * Removes all duplicates from the given {@link Collection}. What is / isn't
+     * a duplicate is determined by the method used by a {@link ArrayList}'s
+     * {@link List#contains(Object)} implementation.
+     *
+     * @param collection the {@link Collection} to remove duplicates from
+     * @param <T> the type of the input {@link Collection}
+     * @return the given {@link Collection}, without duplicates
+     */
     public static <T extends Collection<?>> T trimDuplicates(T collection) {
         List<Object> noDuplicates = new ArrayList<>(collection.size());
         collection.forEach((object) -> {

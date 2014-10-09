@@ -21,7 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package pw.ollie.sprint.collect;
+package pw.ollie.sprint.collect.builder;
+
+import pw.ollie.sprint.collect.MapType;
+import pw.ollie.sprint.collect.SingleEntryMap;
+import pw.ollie.sprint.util.Util;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -69,7 +73,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * Using the MapType enum, you can also create other types of Maps - the
  * {@link #MapBuilder()} constructor will create a {@link HashMap}, but the
- * {@link #MapBuilder(MapType)} constructor can create many other map types,
+ * {@link #MapBuilder(pw.ollie.sprint.collect.MapType)} constructor can create many other map types,
  * including, but not limited to {@link ConcurrentHashMap}s or {@link TreeMap}s.
  *
  * @param <K> the key type for the built {@link Map}
@@ -82,7 +86,7 @@ public final class MapBuilder<K, V> {
      */
     private final Map<K, V> map;
     /**
-     * The {@link MapType} for this {@link MapBuilder}. Each {@link MapType}
+     * The {@link pw.ollie.sprint.collect.MapType} for this {@link MapBuilder}. Each {@link pw.ollie.sprint.collect.MapType}
      * represents a different implementation of {@link Map}.
      */
     private final MapType type;
@@ -350,14 +354,14 @@ public final class MapBuilder<K, V> {
     }
 
     /**
-     * Utility method for the creation of a {@link SingleEntryMap} with the
+     * Utility method for the creation of a {@link pw.ollie.sprint.collect.SingleEntryMap} with the
      * given {@code key} and the given {@code val}.
      *
      * @param key the key for the single entry in the map
      * @param val the value for the single entry in the map
      * @param <K> the type of the map key
      * @param <V> the type of the map value
-     * @return a {@link SingleEntryMap} with the given key and value
+     * @return a {@link pw.ollie.sprint.collect.SingleEntryMap} with the given key and value
      */
     public static <K, V> Map<K, V> singleEntryMap(K key, V val) {
         return new SingleEntryMap<>(key, val, false);

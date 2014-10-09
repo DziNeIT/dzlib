@@ -26,7 +26,7 @@ package pw.ollie.sprint.test;
 import org.junit.Assert;
 import org.junit.Test;
 
-import pw.ollie.sprint.collect.CollectionBuilder;
+import pw.ollie.sprint.collect.builder.CollectionBuilder;
 import pw.ollie.sprint.collect.CollectionType;
 
 import java.util.HashSet;
