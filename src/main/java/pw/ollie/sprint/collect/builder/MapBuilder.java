@@ -86,7 +86,7 @@ public final class MapBuilder<K, V> {
      */
     private final Map<K, V> map;
     /**
-     * The {@link pw.ollie.sprint.collect.MapType} for this {@link MapBuilder}. Each {@link pw.ollie.sprint.collect.MapType}
+     * The {@link MapType} for this {@link MapBuilder}. Each {@link MapType}
      * represents a different implementation of {@link Map}.
      */
     private final MapType type;
@@ -354,7 +354,7 @@ public final class MapBuilder<K, V> {
     }
 
     /**
-     * Utility method for the creation of a {@link pw.ollie.sprint.collect.SingleEntryMap} with the
+     * Utility method for the creation of a {@link SingleEntryMap} with the
      * given {@code key} and the given {@code val}.
      *
      * @param key the key for the single entry in the map
