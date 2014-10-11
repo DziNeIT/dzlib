@@ -52,6 +52,8 @@ import java.util.concurrent.SynchronousQueue;
  * libraries and some others, sorted alphabetically.
  */
 public abstract class CollectionType<T extends Collection> {
+    private static final Map<Class<? extends Collection>, CollectionType> types = new HashMap<>();
+
     public static final CollectionType<ArrayBlockingQueue> ArrayBlockingQueue = new CollectionType<ArrayBlockingQueue>(
             ArrayBlockingQueue.class) {
         @Override
@@ -217,6 +219,4 @@ public abstract class CollectionType<T extends Collection> {
             Class<T> collectionClass) {
         return types.get(collectionClass);
     }
-
-    private static final Map<Class<? extends Collection>, CollectionType> types = new HashMap<>();
 }

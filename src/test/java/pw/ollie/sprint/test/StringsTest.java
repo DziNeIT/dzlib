@@ -50,11 +50,17 @@ public class StringsTest {
 
         Assert.assertEquals(Strings.lookup(map, "on", true).get(), "1");
 
-        String[] args = new String[] {
-                "hello", "\"world", "is", "cool\"", "nope"
-        };
+        final String[] original = { "hi", "bye" };
+        Assert.assertEquals(original.length,
+                Strings.joinQuoted(original).length);
+        final String[] withQuotes = { "'hello", "world'" };
+        final String[] j = Strings.joinQuoted(withQuotes);
+        Assert.assertEquals(1, j.length);
+        Assert.assertEquals(j[0], "hello world");
 
-        String[] joined = Strings.joinQuoted(args);
+
+        final String[] args = { "hello", "\"world", "is", "cool\"", "nope" };
+        final String[] joined = Strings.joinQuoted(args);
         Assert.assertEquals(joined.length, 3);
         Assert.assertEquals(joined[0], "hello");
         Assert.assertEquals(joined[1], "world is cool");

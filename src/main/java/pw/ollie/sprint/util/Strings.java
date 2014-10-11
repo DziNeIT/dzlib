@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
  * (some code is from the internet and isn't attributed because I don't know
  * who wrote it, and there are different people claiming ownership of it)
  */
-public class Strings {
+public final class Strings {
     /**
      * The {@link Pattern} used to escape regex in {@link String}s.
      */
@@ -183,6 +183,62 @@ public class Strings {
         }
 
         return true;
+    }
+
+    /**
+     * Checks whether the given {@code str} String starts with any of the given
+     * {@code prefixes}. This method is case-sensitive. For a  case-insensitive
+     * version, see {@link #startsWithAnyIgnoreCase(String, String...)}.
+     *
+     * @param str the string to check
+     * @param prefixes the strings to test for the presence of
+     * @return whether {@code str} starts with any of {@code prefixes}
+     */
+    public static boolean startsWithAny(String str, String... prefixes) {
+        for (String prefix : prefixes) {
+            if (str.startsWith(prefix)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether the given {@code str} String starts with any of the given
+     * {@code prefixes}. This method is case-insensitive. For a  case-sensitive
+     * version, see {@link #startsWithAny(String, String...)}.
+     *
+     * @param str the string to check
+     * @param prefixes the strings to test for the presence of
+     * @return whether {@code str} starts with any of {@code prefixes}, ignoring
+     *         case
+     */
+    public static boolean startsWithAnyIgnoreCase(String str,
+            String... prefixes) {
+        for (String prefix : prefixes) {
+            if (startsWithIgnoreCase(str, prefix)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether the given {@code str} String is equal to any of the given
+     * {@code strings}, ignoring case. For a case-sensitive equivalent, see
+     * {@link ObjectUtils#equalsAny(Object, Object...)}.
+     *
+     * @param str the string to check
+     * @param strings the strings to check
+     * @return whether {@code str} equals any of {@code strings}, ignoring case
+     */
+    public static boolean equalsAnyIgnoreCase(String str, String... strings) {
+        for (String curString : strings) {
+            if (str.equalsIgnoreCase(curString)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
