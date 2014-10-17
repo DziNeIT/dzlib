@@ -359,7 +359,7 @@ public final class Strings {
     /**
      * Takes in a String[] & joins quoted elements, returning a new String[]
      * whereby multiple elements in the original String[] which are enclosed in
-     * quotations become a single element in the new iterate.
+     * quotations become a single element in the new array.
      *
      * This method supports both single quotes ('') and double quotes ("").
      *
