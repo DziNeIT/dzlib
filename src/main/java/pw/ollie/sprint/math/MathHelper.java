@@ -33,8 +33,8 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class MathHelper {
     /**
-     * Gets the difference between the two values. Will always be positive (or
-     * zero) as the smaller value will be subtracted from the larger one.
+     * Gets the difference between the two values. Will never be negative as the
+     * smaller value will be subtracted from the larger one.
      *
      * @param l1 the first value
      * @param l2 the second value
