@@ -28,8 +28,7 @@ import java.util.Collection;
 /**
  * Simple number-related helper methods.
  */
-// not in MathHelper because it would just clog up the class and be annoying
-public class Numbers {
+public final class Numbers {
     /**
      * Gets the sum of all of the given numbers.
      *

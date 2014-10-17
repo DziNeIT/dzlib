@@ -38,7 +38,7 @@ import java.lang.reflect.Modifier;
  * @author Ollie [DziNeIT]
  * (static final field code http://www.javaspecialists.eu/archive/Issue161.html)
  */
-public class UnsafeReflection {
+public final class UnsafeReflection {
     /**
      * The {@link ReflectionFactory} instance. This particular field is used for
      * all uses of {@link ReflectionFactory} in sprint, so if you want to you

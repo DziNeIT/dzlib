@@ -40,7 +40,7 @@ import java.util.jar.JarFile;
  * @author Ollie [DziNeIT]
  * @author Ian [simplyianm]
  */
-public class FindClasses {
+public final class FindClasses {
     /**
      * Gets all of the classes in a package.
      *

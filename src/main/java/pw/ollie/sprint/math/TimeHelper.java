@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Utilities for dealing with time and time measurements.
  */
-public class TimeHelper {
+public final class TimeHelper {
     /**
      * Calculates the difference, in milliseconds, between the provided time and
      * the current time. If the provided time is later than the current time,

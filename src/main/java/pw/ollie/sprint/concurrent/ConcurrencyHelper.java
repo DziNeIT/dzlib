@@ -28,7 +28,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * General utility methods for helping with concurrency.
  */
-public class ConcurrencyHelper {
+public final class ConcurrencyHelper {
     public static <T> ConstantFuture<T> constantFuture(T value) {
         return new ConstantFuture<>(value);
     }
@@ -38,6 +38,6 @@ public class ConcurrencyHelper {
     }
 
     private ConcurrencyHelper() {
-        throw new UnsupportedOperationException("ffs lads");
+        throw new UnsupportedOperationException();
     }
 }

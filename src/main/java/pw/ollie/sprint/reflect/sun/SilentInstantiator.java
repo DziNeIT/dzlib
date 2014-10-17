@@ -35,7 +35,7 @@ import pw.ollie.sprint.reflect.ReflectException;
  * @author Heinz Kabutz [kabutz] (sun.reflect code)
  * @author Ollie [DziNeIT] (sun.misc.Unsafe code)
  */
-public class SilentInstantiator {
+public final class SilentInstantiator {
     /**
      * Creates a new object of type T, without calling the constructor.
      *

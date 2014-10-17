@@ -36,7 +36,7 @@ import java.lang.reflect.Modifier;
  *
  * @author Ollie [DziNeIT]
  */
-public class UnsafeAccessor {
+public final class UnsafeAccessor {
     /**
      * The {@link Class} object for {@link Unsafe}.
      */
