@@ -59,6 +59,67 @@ public final class Functions {
     }
 
     /**
+     * Creates a new {@link Predicate} to check that accepted values can be
+     * parsed as integers.
+     *
+     * @return a Predicate checking that accepted values can be parsed as ints
+     */
+    public static Predicate<String> isInteger() {
+        return IS_INTEGER_PREDICATE;
+    }
+
+    /**
+     * Creates a new {@link Predicate} to check that accepted values can be
+     * parsed as doubles.
+     *
+     * @return a Predicate checking that accepted values can be parsed as
+     *         doubles
+     */
+    public static Predicate<String> isDouble() {
+        return IS_DOUBLE_PREDICATE;
+    }
+
+    /**
+     * Creates a new {@link Predicate} to check that accepted values can be
+     * parsed as longs.
+     *
+     * @return a Predicate checking that accepted values can be parsed as longs
+     */
+    public static Predicate<String> isLong() {
+        return IS_LONG_PREDICATE;
+    }
+
+    /**
+     * Creates a new {@link Predicate} to check that accepted values can be
+     * parsed as floats.
+     *
+     * @return a Predicate checking that accepted values can be parsed as floats
+     */
+    public static Predicate<String> isFloat() {
+        return IS_FLOAT_PREDICATE;
+    }
+
+    /**
+     * Creates a new {@link Predicate} to check that accepted values can be
+     * parsed as shorts.
+     *
+     * @return a Predicate checking that accepted values can be parsed as shorts
+     */
+    public static Predicate<String> isShort() {
+        return IS_SHORT_PREDICATE;
+    }
+
+    /**
+     * Creates a new {@link Predicate} to check that accepted values can be
+     * parsed as bytes.
+     *
+     * @return a Predicate checking that accepted values can be parsed as bytes
+     */
+    public static Predicate<String> isByte() {
+        return IS_BYTE_PREDICATE;
+    }
+
+    /**
      * Gets a {@link BiPredicate} which checks for the two given objects being
      * equal to each other.
      *
@@ -67,7 +128,7 @@ public final class Functions {
      * @see {@link #areEqualNullable()}
      */
     public static <T> BiPredicate<T, T> areEqual() {
-        return (a, b) -> a.equals(b);
+        return EQUAL_PREDICATE;
     }
 
     /**
@@ -79,13 +140,7 @@ public final class Functions {
      * @see {@link #areEqual()}
      */
     public static <T> BiPredicate<T, T> areEqualNullable() {
-        return (a, b) -> {
-            if (a == null || b == null) {
-                return a == null && b == null;
-            } else {
-                return a.equals(b);
-            }
-        };
+        return EQUAL_NULLABLE_PREDICATE;
     }
 
     /**
@@ -95,7 +150,7 @@ public final class Functions {
      * @return a Consumer which does nothing every time
      */
     public static <T> Consumer<T> voidConsumer() {
-        return t -> {};
+        return VOID_CONSUMER;
     }
 
     /**
@@ -106,7 +161,7 @@ public final class Functions {
      * @return a BiConsumer which does nothing every time
      */
     public static <T, U> BiConsumer<T, U> voidBiConsumer() {
-        return (t, u) -> {};
+        return VOID_BICONSUMER;
     }
 
     /**
@@ -116,7 +171,7 @@ public final class Functions {
      * @return a Supplier which returns {@code null} every time
      */
     public static <T> Supplier<T> nullSupplier() {
-        return () -> null;
+        return NULL_SUPPLIER;
     }
 
     /**
@@ -136,7 +191,7 @@ public final class Functions {
      * @return a Predicate which returns {@code true} every time
      */
     public static <T> Predicate<T> truePredicate() {
-        return (a) -> true;
+        return TRUE_PREDICATE;
     }
 
     /**
@@ -146,8 +201,74 @@ public final class Functions {
      * @return a Predicate which returns {@code false} every time
      */
     public static <T> Predicate<T> falsePredicate() {
-        return (a) -> false;
+        return FALSE_PREDICATE;
     }
+
+    // Various FunctionalInterface implementations
+
+    private static final Consumer VOID_CONSUMER = (e) -> {
+    };
+    private static final BiConsumer VOID_BICONSUMER = (a, b) -> {
+    };
+    private static final Supplier NULL_SUPPLIER = () -> null;
+    private static final Predicate TRUE_PREDICATE = (e) -> true;
+    private static final Predicate FALSE_PREDICATE = (e) -> false;
+    private static final BiPredicate EQUAL_PREDICATE = (a, b) -> a.equals(b);
+    private static final BiPredicate EQUAL_NULLABLE_PREDICATE = (a, b) -> {
+        if (a == null || b == null) {
+            return a == null && b == null;
+        } else {
+            return a.equals(b);
+        }
+    };
+    private static final Predicate<String> IS_INTEGER_PREDICATE = (e) -> {
+        try {
+            Integer.parseInt(e);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    };
+    private static final Predicate<String> IS_DOUBLE_PREDICATE = (e) -> {
+        try {
+            Double.parseDouble(e);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    };
+    private static final Predicate<String> IS_LONG_PREDICATE = (e) -> {
+        try {
+            Long.parseLong(e);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    };
+    private static final Predicate<String> IS_FLOAT_PREDICATE = (e) -> {
+        try {
+            Float.parseFloat(e);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    };
+    private static final Predicate<String> IS_SHORT_PREDICATE = (e) -> {
+        try {
+            Short.parseShort(e);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    };
+    private static final Predicate<String> IS_BYTE_PREDICATE = (e) -> {
+        try {
+            Byte.parseByte(e);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    };
 
     private Functions() {
     }
