@@ -26,7 +26,7 @@ package pw.ollie.sprint.reflect;
 /**
  * Thrown if there is a problem in reflection
  */
-public class ReflectException extends RuntimeException {
+public final class ReflectException extends RuntimeException {
     public ReflectException() {
     }
 

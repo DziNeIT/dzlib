@@ -334,8 +334,7 @@ public final class Strings {
         T type = lookup.get(name);
         if (type != null) {
             return Optional.of(type);
-        }
-        if (!fuzzy) {
+        } else if (!fuzzy) {
             return Optional.empty();
         }
 
@@ -432,17 +431,6 @@ public final class Strings {
             parsed.addAll(fallback);
         }
         return parsed.toArray(new String[parsed.size()]);
-    }
-
-    /**
-     * Utility method for creating a {@link String} {@link List} of the given
-     * {@link String}s
-     *
-     * @param strings the strings to make a {@link List} from
-     * @return a {@link List} of the given strings
-     */
-    public static List<String> list(String... strings) {
-        return Arrays.asList(strings);
     }
 
     // Shortcut methods are all below this point
