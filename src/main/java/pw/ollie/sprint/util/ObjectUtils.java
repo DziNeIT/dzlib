@@ -23,6 +23,8 @@
  */
 package pw.ollie.sprint.util;
 
+import java.util.Collection;
+
 /**
  * Object-related comparison methods.
  */
@@ -38,12 +40,31 @@ public final class ObjectUtils {
      * @return whether {@code object} equals any of {@code objects}
      */
     public static boolean equalsAny(Object object, Object... objects) {
-        for (Object curObject : objects) {
-            if (object == null) {
-                if (curObject == null) {
-                    return true;
-                }
-            } else if (object.equals(curObject)) {
+        for (Object o : objects) {
+            if (object == null && o == null) {
+                return true;
+            } else if (object != null && object.equals(o)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether {@code object} equals any of {@code objects}, using the
+     * {@link Object#equals(Object)} method in {@code object} for comparisons.
+     *
+     * Two {@code null} objects are treated as equal by this method.
+     *
+     * @param object the object to test
+     * @param objects the objects to test
+     * @return whether {@code object} equals any of {@code objects}
+     */
+    public static boolean equalsAny(Object object, Collection<Object> objects) {
+        for (Object o : objects) {
+            if (object == null && o == null) {
+                return true;
+            } else if (object != null && object.equals(o)) {
                 return true;
             }
         }
