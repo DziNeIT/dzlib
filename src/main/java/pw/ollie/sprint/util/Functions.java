@@ -23,9 +23,13 @@
  */
 package pw.ollie.sprint.util;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -34,6 +38,45 @@ import java.util.function.Supplier;
  * which have a specific function.
  */
 public final class Functions {
+    /**
+     * Transforms the given {@link Collection} into the given {@link Map}, where
+     * the keys are the value returned by applying the given {@link Function} to
+     * the value they are mapped to. The values are the elements contained in
+     * the given Collection.
+     *
+     * @param collection the {@link Collection} to map
+     * @param function the {@link Function} to use to determine keys
+     * @param <A> the type of key for the map
+     * @param <B> the type of value for the map
+     * @return a {@link Map} of {@code function}-determined keys to given values
+     */
+    public static <A, B> Map<A, B> map(Collection<B> collection, Map<A, B> map,
+            Function<B, A> function) {
+        collection.forEach((l) -> map.put(function.apply(l), l));
+        return map;
+    }
+
+    /**
+     * Transforms the given {@link Collection} into a new {@link Map}, where
+     * the keys are the value returned by applying the given {@link Function} to
+     * the value they are mapped to. The values are the elements contained in
+     * the given Collection.
+     *
+     * This is equivalent to calling {@link #map(Collection, Map, Function)}
+     * with {@code new HashMap<>} provided for the {@link Map} argument.
+     *
+     * @param collection the {@link Collection} to map
+     * @param function the {@link Function} to use to determine keys
+     * @param <A> the type of key for the map
+     * @param <B> the type of value for the map
+     * @return a {@link Map} of {@code function}-determined keys to given values
+     * @see {@link #map(Collection, Map, Function)}
+     */
+    public static <A, B> Map<A, B> map(Collection<B> collection,
+            Function<B, A> function) {
+        return map(collection, new HashMap<>(), function);
+    }
+
     /**
      * Creates a new {@link Predicate} to check that the accepted {@link T} is
      * of the given {@link Class} type.
@@ -59,8 +102,18 @@ public final class Functions {
     }
 
     /**
-     * Creates a new {@link Predicate} to check that accepted values can be
-     * parsed as integers.
+     * Returns a {@link Predicate} to check whether given objects are instanceof
+     * {@link String}.
+     *
+     * @return a Predicate to check whether objects are instanceof String
+     */
+    public static Predicate<Object> isString() {
+        return IS_STRING_PREDICATE;
+    }
+
+    /**
+     * Returns a {@link Predicate} to check that accepted values can be parsed
+     * as integers.
      *
      * @return a Predicate checking that accepted values can be parsed as ints
      */
@@ -69,8 +122,8 @@ public final class Functions {
     }
 
     /**
-     * Creates a new {@link Predicate} to check that accepted values can be
-     * parsed as doubles.
+     * Returns a {@link Predicate} to check that accepted values can be parsed
+     * as doubles.
      *
      * @return a Predicate checking that accepted values can be parsed as
      *         doubles
@@ -80,8 +133,8 @@ public final class Functions {
     }
 
     /**
-     * Creates a new {@link Predicate} to check that accepted values can be
-     * parsed as longs.
+     * Returns a {@link Predicate} to check that accepted values can be parsed
+     * as longs.
      *
      * @return a Predicate checking that accepted values can be parsed as longs
      */
@@ -90,8 +143,8 @@ public final class Functions {
     }
 
     /**
-     * Creates a new {@link Predicate} to check that accepted values can be
-     * parsed as floats.
+     * Returns a {@link Predicate} to check that accepted values can be parsed
+     * as floats.
      *
      * @return a Predicate checking that accepted values can be parsed as floats
      */
@@ -100,8 +153,8 @@ public final class Functions {
     }
 
     /**
-     * Creates a new {@link Predicate} to check that accepted values can be
-     * parsed as shorts.
+     * Returns a {@link Predicate} to check that accepted values can be parsed
+     * as shorts.
      *
      * @return a Predicate checking that accepted values can be parsed as shorts
      */
@@ -110,8 +163,8 @@ public final class Functions {
     }
 
     /**
-     * Creates a new {@link Predicate} to check that accepted values can be
-     * parsed as bytes.
+     * Returns a {@link Predicate} to check that accepted values can be parsed
+     * as bytes.
      *
      * @return a Predicate checking that accepted values can be parsed as bytes
      */
@@ -214,6 +267,8 @@ public final class Functions {
     private static final Predicate TRUE_PREDICATE = (e) -> true;
     private static final Predicate FALSE_PREDICATE = (e) -> false;
     private static final BiPredicate EQUAL_PREDICATE = (a, b) -> a.equals(b);
+    private static final Predicate<Object> IS_STRING_PREDICATE = (
+            a) -> a instanceof String;
     private static final BiPredicate EQUAL_NULLABLE_PREDICATE = (a, b) -> {
         if (a == null || b == null) {
             return a == null && b == null;
