@@ -33,9 +33,17 @@ import java.util.concurrent.TimeUnit;
  *
  * @param <T> the type of the {@link ConstantFuture}
  */
-public class ConstantFuture<T> implements Future<T> {
+public final class ConstantFuture<T> implements Future<T> {
+    /**
+     * The constant value for this {@link ConstantFuture}.
+     */
     private final T value;
 
+    /**
+     * This constructor assigns the given {@code value} to this {@link Future}.
+     *
+     * @param value the value for this ConstantFuture
+     */
     public ConstantFuture(T value) {
         this.value = value;
     }

@@ -29,15 +29,28 @@ import java.util.concurrent.ThreadLocalRandom;
  * General utility methods for helping with concurrency.
  */
 public final class ConcurrencyHelper {
+    /**
+     * Gets a {@link ConstantFuture} - a {@link Future} with a constant value -
+     * with the given {@code value}.
+     *
+     * @param value the value to assign to the {@link ConstantFuture}
+     * @param <T> the type of the Future
+     * @return a new ConstantFuture with the given constant value
+     */
     public static <T> ConstantFuture<T> constantFuture(T value) {
         return new ConstantFuture<>(value);
     }
 
+    /**
+     * Gets the {@link ThreadLocalRandom} for the current {@link Thread}.
+     *
+     * @return the current Thread's ThreadLocalRandom
+     */
     public static ThreadLocalRandom concurrentRandom() {
         return ThreadLocalRandom.current();
     }
 
     private ConcurrencyHelper() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException(":(");
     }
 }

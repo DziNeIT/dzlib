@@ -73,7 +73,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * Using the MapType enum, you can also create other types of Maps - the
  * {@link #MapBuilder()} constructor will create a {@link HashMap}, but the
- * {@link #MapBuilder(pw.ollie.sprint.collect.MapType)} constructor can create many other map types,
+ * {@link #MapBuilder(MapType)} constructor can create many other map types,
  * including, but not limited to {@link ConcurrentHashMap}s or {@link TreeMap}s.
  *
  * @param <K> the key type for the built {@link Map}
@@ -361,7 +361,7 @@ public final class MapBuilder<K, V> {
      * @param val the value for the single entry in the map
      * @param <K> the type of the map key
      * @param <V> the type of the map value
-     * @return a {@link pw.ollie.sprint.collect.SingleEntryMap} with the given key and value
+     * @return a {@link SingleEntryMap} with the given key and value
      */
     public static <K, V> Map<K, V> singleEntryMap(K key, V val) {
         return new SingleEntryMap<>(key, val, false);
