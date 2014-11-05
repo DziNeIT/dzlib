@@ -33,7 +33,7 @@ public final class Reflection {
      * @param clazz the {@link Class} to get the {@link Package} of
      * @return the {@link Package} of the given {@link Class}
      */
-    public Package getPackage(Class<?> clazz) {
+    public static Package getPackage(Class<?> clazz) {
         return Package.getPackage(getPackageName(clazz));
     }
 
@@ -43,7 +43,7 @@ public final class Reflection {
      * @param classname the name of the Class to get the package of
      * @return the {@link Package} for the class with the given name
      */
-    public Package getPackage(String classname) {
+    public static Package getPackage(String classname) {
         return Package.getPackage(getPackageName(classname));
     }
 
