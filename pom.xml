@@ -4,15 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <name>sprintj</name>
+    <name>dzlib</name>
     <groupId>pw.ollie</groupId>
-    <artifactId>sprintj</artifactId>
+    <artifactId>dzlib</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <inceptionYear>2014</inceptionYear>
 
     <description>A general-purpose Java library.</description>
-    <url>http://ollie.pw/sprintj</url>
+    <url>http://ollie.pw/dzlib</url>
 
     <licenses>
         <license>
@@ -23,8 +23,8 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/DziNeIT/sprintj</url>
-        <connection>scm:git:git://github.com/DziNeIT/sprintj.git</connection>
+        <url>https://github.com/DziNeIT/dzlib</url>
+        <connection>scm:git:git://github.com/DziNeIT/dzlib.git</connection>
     </scm>
 
     <developers>
