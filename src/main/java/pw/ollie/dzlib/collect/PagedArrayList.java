@@ -38,9 +38,9 @@ import java.util.Map;
  *
  * @param <E> the type of element stored
  */
-public class SimplePagedList<E> implements PagedList<E> {
+public class PagedArrayList<E> implements PagedList<E> {
     /**
-     * The backing {@link List} used for this {@link SimplePagedList} to actually
+     * The backing {@link List} used for this {@link PagedArrayList} to actually
      * store elements.
      */
     private final List<E> delegate;
@@ -55,7 +55,7 @@ public class SimplePagedList<E> implements PagedList<E> {
     private int elementsPerPage = 6;
     /**
      * Whether to automatically refresh pages when an element is added to or
-     * removed from the {@link SimplePagedList}. If this is set to {@code false},
+     * removed from the {@link PagedArrayList}. If this is set to {@code false},
      * the pages will be calculated in {@link #getPage(int)}.
      */
     private boolean autoRefresh = true;
@@ -64,13 +64,15 @@ public class SimplePagedList<E> implements PagedList<E> {
      */
     private boolean refreshOnGet = false;
 
-    public SimplePagedList() {
+    public PagedArrayList() {
         this(new ArrayList<>());
     }
 
-    public SimplePagedList(List<E> delegate) {
+    public PagedArrayList(List<E> delegate) {
         this.delegate = delegate;
         this.pages = new HashMap<>();
+
+        calculatePages();
     }
 
     @Override
@@ -126,16 +128,24 @@ public class SimplePagedList<E> implements PagedList<E> {
             return;
         }
 
-        int amtPages = (int) Math.ceil(size() / elementsPerPage);
+        int amtPages = (int) Math.ceil((float) size() / elementsPerPage);
         for (int page = 1; page <= amtPages; page++) {
             int pageStart = (page - 1) * elementsPerPage;
-            pages.put(page, subList(pageStart, pageStart + elementsPerPage));
+            pages.put(page, subList(pageStart, Math.min(pageStart + elementsPerPage, size())));
         }
     }
 
     @Override
     public int size() {
         return delegate.size();
+    }
+
+    @Override
+    public int pages() {
+        if (refreshOnGet) {
+            calculatePages();
+        }
+        return pages.size();
     }
 
     @Override

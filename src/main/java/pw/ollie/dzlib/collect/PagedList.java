@@ -39,6 +39,8 @@ public interface PagedList<E> extends List<E> {
 
     boolean isRefreshOnGet();
 
+    int pages();
+
     void setElementsPerPage(int elementsPerPage);
 
     void setAutoRefresh(boolean autoRefresh);

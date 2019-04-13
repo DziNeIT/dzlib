@@ -152,11 +152,11 @@ public abstract class CollectionType<T extends Collection> {
             return new LinkedTransferQueue<>();
         }
     };
-    public static final CollectionType<SimplePagedList> SimplePagedList = new CollectionType<SimplePagedList>(
-            SimplePagedList.class) {
+    public static final CollectionType<PagedArrayList> SimplePagedList = new CollectionType<PagedArrayList>(
+            PagedArrayList.class) {
         @Override
-        public SimplePagedList instantiate() {
-            return new SimplePagedList<>();
+        public PagedArrayList instantiate() {
+            return new PagedArrayList<>();
         }
     };
     public static final CollectionType<PriorityBlockingQueue> PriorityBlockingQueue = new CollectionType<PriorityBlockingQueue>(
