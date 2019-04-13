@@ -1,7 +1,7 @@
 /*
  * This file is part of dzlib, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014 Oliver Stanley <http://ollie.pw>
+ * Copyright (c) 2014-2019 Oliver Stanley <http://ollie.pw>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,9 @@
  */
 package pw.ollie.dzlib.reflect.sun;
 
+import sun.reflect.ReflectionFactory;
+
 import pw.ollie.dzlib.reflect.ReflectException;
-import pw.ollie.dzlib.reflect.ReflectionSettings;
 
 /**
  * Utility for creating objects without calling their constructor. Note that
@@ -37,13 +38,14 @@ import pw.ollie.dzlib.reflect.ReflectionSettings;
  * @author Ollie [DziNeIT] (sun.misc.Unsafe code)
  */
 public final class SilentInstantiator {
+    private static final ReflectionFactory FACTORY = ReflectionFactory.getReflectionFactory();
+
     /**
      * Creates a new object of type T, without calling the constructor.
      *
-     * @param clazz the class to silently create an instance of
-     * @param <T> the type which the class is
-     * @return an instance of the given class, created without calling any
-     *         constructor
+     * @param clazz the {@link Class} of the type to silently instantiate
+     * @param <T> the type of the class to instantiate
+     * @return an instance of the given class, no constructor called
      */
     public static <T> T newInstance(Class<T> clazz) {
         return newInstance(clazz, Object.class);
@@ -51,21 +53,8 @@ public final class SilentInstantiator {
 
     /**
      * Creates a new object of type T, without calling the constructor.
-     *
-     * @param clazz the {@link Class} of the type to silently instantiate
-     * @param useUnsafe whether to attempt to use {@link sun.misc.Unsafe}
-     * @param <T> the type of the class to instantiate
-     * @return an instance of the given class, no constructor called
-     */
-    public static <T> T newInstance(Class<T> clazz, boolean useUnsafe) {
-        return newInstance(clazz, Object.class, useUnsafe);
-    }
-
-    /**
-     * Creates a new object of type T, without calling the constructor. If an
-     * {@link sun.misc.Unsafe} instance is available, it will be used by this
-     * method. Otherwise, sun.reflect is used to create a serialization
-     * constructor to create an object.
+     * sun.reflect is used to create a serialization constructor to
+     * create an object.
      *
      * @param clazz the class to silently create an instance of
      * @param parent a superclass of the class of which we do want the
@@ -74,43 +63,12 @@ public final class SilentInstantiator {
      * @return an instance of the given class, created without calling any
      *         constructor
      */
-    public static <T> T newInstance(Class<? extends T> clazz,
-            Class<? super T> parent) {
-        return newInstance(clazz, parent, !ReflectionSettings.isAvoidUnsafe());
-    }
-
-    /**
-     * Creates a new object of type T, without calling the constructor. If an
-     * {@link sun.misc.Unsafe} instance is available, it will be used by this
-     * method. Otherwise, sun.reflect is used to create a serialization
-     * constructor to create an object.
-     *
-     * @param clazz the class to silently create an instance of
-     * @param parent a superclass of the class of which we do want the
-     *        constructor called. Most of the time this can be Object.class
-     * @param useUnsafe whether to attempt to use {@link sun.misc.Unsafe}
-     * @param <T> the type which the class is
-     * @return an instance of the given class, created without calling any
-     *         constructor
-     */
-    public static <T> T newInstance(Class<? extends T> clazz,
-            Class<? super T> parent, boolean useUnsafe) {
-        // Allocate instance of the class with sun.misc.Unsafe. Written by Ollie
-        if (useUnsafe && UnsafeAccessor.get() != null) {
-            try {
-                // unchecked cast but should be fine every time
-                return (T) UnsafeAccessor.get().allocateInstance(clazz);
-            } catch (InstantiationException ignore) {
-                // Ignore exception, attempt to create instance via sun.reflect
-                // reflection instead, using serialization constructors
-            }
-        }
-
+    public static <T> T newInstance(Class<? extends T> clazz, Class<? super T> parent) {
         // If we can't create an instance with Unsafe, instead create a new
         // serialization constructor for the class and create it that way. This
         // code adapted from code written by Heinz Kabutz
         try {
-            return clazz.cast(UnsafeReflection.FACTORY
+            return clazz.cast(FACTORY
                     .newConstructorForSerialization(clazz,
                             parent.getDeclaredConstructor()).newInstance());
         } catch (Exception e) {
