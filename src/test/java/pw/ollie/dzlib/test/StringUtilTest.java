@@ -26,18 +26,18 @@ package pw.ollie.dzlib.test;
 import org.junit.Assert;
 import org.junit.Test;
 
-import pw.ollie.dzlib.util.Strings;
+import pw.ollie.dzlib.util.StringUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class StringsTest {
+public class StringUtilTest {
     @Test
     public void runTest() {
         final String hippo = "hippo";
         final String gyppo = "gyppo";
         Assert.assertEquals("Levenshtein failed", 2,
-                Strings.getLevenshteinDistance(hippo, gyppo));
+                StringUtil.getLevenshteinDistance(hippo, gyppo));
 
         final Map<String, String> map = new HashMap<String, String>() {
             {
@@ -48,19 +48,19 @@ public class StringsTest {
             }
         };
 
-        Assert.assertEquals(Strings.lookup(map, "on", true).get(), "1");
+        Assert.assertEquals(StringUtil.lookup(map, "on", true).get(), "1");
 
         final String[] original = { "hi", "bye" };
         Assert.assertEquals(original.length,
-                Strings.joinQuoted(original).length);
+                StringUtil.joinQuoted(original).length);
         final String[] withQuotes = { "'hello", "world'" };
-        final String[] j = Strings.joinQuoted(withQuotes);
+        final String[] j = StringUtil.joinQuoted(withQuotes);
         Assert.assertEquals(1, j.length);
         Assert.assertEquals(j[0], "hello world");
 
 
         final String[] args = { "hello", "\"world", "is", "cool\"", "nope" };
-        final String[] joined = Strings.joinQuoted(args);
+        final String[] joined = StringUtil.joinQuoted(args);
         Assert.assertEquals(joined.length, 3);
         Assert.assertEquals(joined[0], "hello");
         Assert.assertEquals(joined[1], "world is cool");

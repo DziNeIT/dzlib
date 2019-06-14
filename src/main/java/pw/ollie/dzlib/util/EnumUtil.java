@@ -23,15 +23,12 @@
  */
 package pw.ollie.dzlib.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public final class Util {
+public final class EnumUtil {
     /**
      * Gets the {@code values()} for the given {@link Enum} type.
      *
      * @param type the {@link Enum} type
-     * @param <E> the {@link Enum} type
+     * @param <E>  the {@link Enum} type
      * @return all values for the given {@link Enum} type
      */
     @SuppressWarnings("unchecked")
@@ -43,58 +40,7 @@ public final class Util {
         }
     }
 
-    public static boolean throwsThrowable(Runnable runnable,
-            Class<? extends Throwable> expected, boolean swallowErrors) {
-        try {
-            runnable.run();
-        } catch (Throwable throwable) {
-            if (expected.isInstance(throwable)) {
-                return true;
-            }
-            if (!swallowErrors && throwable instanceof Error) {
-                throw throwable;
-            }
-        }
-        return false;
-    }
-
-    public static boolean throwsThrowable(Runnable runnable,
-            Class<? extends Throwable> expected) {
-        return throwsThrowable(runnable, expected, false);
-    }
-
-    public static boolean throwsThrowable(Runnable runnable) {
-        return throwsThrowable(runnable, Throwable.class, false);
-    }
-
-    public static boolean throwsError(Runnable runnable) {
-        return throwsThrowable(runnable, Error.class, true);
-    }
-
-    public static boolean throwsException(Runnable runnable) {
-        return throwsThrowable(runnable, Exception.class, false);
-    }
-
-    public static boolean throwsNumberFormat(Runnable runnable) {
-        return throwsThrowable(runnable, NumberFormatException.class, false);
-    }
-
-    /**
-     * Creates a {@link List} from the given objects.
-     *
-     * @param objs the objects to make a {@link List} from
-     * @return an {@link ArrayList} of given keys
-     */
-    @SuppressWarnings("unchecked")
-    public static <E> List<E> list(E... objs) {
-        List<E> res = new ArrayList<>();
-        for (Object object : objs) {
-            res.add((E) object);
-        }
-        return res;
-    }
-
-    private Util() {
+    private EnumUtil() {
         throw new UnsupportedOperationException();
     }
 }

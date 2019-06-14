@@ -21,10 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package pw.ollie.dzlib.util;
+package pw.ollie.dzlib.math;
 
-import java.util.function.BiPredicate;
+import java.util.concurrent.TimeUnit;
 
-@FunctionalInterface
-public interface PackageFilter extends BiPredicate<Package, String> {
+/**
+ * Utilities for dealing with time and time measurements.
+ */
+public final class TimeUtil {
+    /**
+     * Calculates the difference, in milliseconds, between the provided time and
+     * the current time. If the provided time is later than the current time,
+     * the result will be negative.
+     *
+     * @param from the time to calculate the difference from
+     * @return the difference, in millis, between {@code from} and the current
+     *         time
+     */
+    public static long getTimeSince(long from) {
+        return MathUtil.getDifference(from, getCurrentTimeMillis());
+    }
+
+    /**
+     * Gets the current time in milliseconds, converting from the nanoseconds
+     * returned by {@link System#nanoTime()} with {@link TimeUnit#convert(long,
+     * TimeUnit)}
+     *
+     * @return the current time, in milliseconds
+     */
+    public static long getCurrentTimeMillis() {
+        return TimeUnit.MILLISECONDS.convert(System.nanoTime(),
+                TimeUnit.NANOSECONDS);
+    }
+
+    private TimeUtil() {
+        throw new UnsupportedOperationException();
+    }
 }

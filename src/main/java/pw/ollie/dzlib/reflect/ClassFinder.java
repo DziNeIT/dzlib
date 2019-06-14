@@ -21,9 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package pw.ollie.dzlib.reflect.util;
-
-import pw.ollie.dzlib.reflect.ReflectException;
+package pw.ollie.dzlib.reflect;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +29,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 /**
  * Helper methods for finding classes in jar files / directories.
@@ -42,13 +41,12 @@ public final class ClassFinder {
     /**
      * Gets all of the classes in a package.
      *
-     * @param pkgName the name of the package to get classes for
-     * @param loader the {@link ClassLoader} to get resources from
+     * @param pkgName         the name of the package to get classes for
+     * @param loader          the {@link ClassLoader} to get resources from
      * @param includeChildren whether to include children of the package given
      * @return a {@link List} of classes in the given package
      */
-    public static List<Class<?>> find(String pkgName, ClassLoader loader,
-            boolean includeChildren) {
+    public static List<Class<?>> find(String pkgName, ClassLoader loader, boolean includeChildren) {
         List<Class<?>> result = new ArrayList<>();
         String relPath = pkgName.replace('.', '/');
 
@@ -64,8 +62,7 @@ public final class ClassFinder {
         }
 
         if (includeChildren) {
-            Reflection.loopPackages(
-                    (n) -> n.startsWith(pkgName) && !n.equals(pkgName),
+            Reflection.loopPackages((n) -> n.getName().startsWith(pkgName) && !n.getName().equals(pkgName),
                     (p) -> result.addAll(find(p.getName(), loader, false)));
         }
 
@@ -75,8 +72,8 @@ public final class ClassFinder {
     /**
      * @param pkgName the name of the package to get classes for
      * @return {@link #find(String, ClassLoader, boolean)} called with
-     *         {@code pkgName}, {@link Class#getClassLoader()} and {@code true}
-     *         as arguments
+     * {@code pkgName}, {@link Class#getClassLoader()} and {@code true}
+     * as arguments
      */
     public static List<Class<?>> find(String pkgName) {
         return find(pkgName, ClassFinder.class.getClassLoader(), true);
@@ -84,30 +81,28 @@ public final class ClassFinder {
 
     /**
      * @param pkgName the name of the package to get classes for
-     * @param loader the {@link ClassLoader} to get resources from
+     * @param loader  the {@link ClassLoader} to get resources from
      * @return {@link #find(String, ClassLoader, boolean)} called with
-     *         {@code pkgName}, {@code loader} and {@code true} as arguments
+     * {@code pkgName}, {@code loader} and {@code true} as arguments
      */
     public static List<Class<?>> find(String pkgName,
-            ClassLoader loader) {
+                                      ClassLoader loader) {
         return find(pkgName, loader, true);
     }
 
     /**
-     * @param pkgName the name of the package to get classes for
+     * @param pkgName         the name of the package to get classes for
      * @param includeChildren whether to include children of the package given
      * @return {@link #find(String, ClassLoader, boolean)} called with
-     *         {@code pkgName}, {@link Class#getClassLoader()} and {@code
-     *         includeChildren} as arguments
+     * {@code pkgName}, {@link Class#getClassLoader()} and {@code
+     * includeChildren} as arguments
      */
-    public static List<Class<?>> find(String pkgName,
-            boolean includeChildren) {
+    public static List<Class<?>> find(String pkgName, boolean includeChildren) {
         return find(pkgName, ClassFinder.class.getClassLoader(),
                 includeChildren);
     }
 
-    private static void checkDirectory(File directory, String pkgname,
-            List<Class<?>> classes) {
+    private static void checkDirectory(File directory, String pkgname, List<Class<?>> classes) {
         if (!directory.exists() || !directory.isDirectory()) {
             return;
         }
@@ -123,26 +118,25 @@ public final class ClassFinder {
         }
     }
 
-    private static void checkJar(URL resource, String pkgname,
-            List<Class<?>> classes) {
-        String jarPath = resource.getPath()
-                .replaceFirst("[.]jar[!].*", ".jar").replaceFirst("file:", "");
+    private static void checkJar(URL resource, String pkgname, List<Class<?>> classes) {
+        String jarPath = resource.getPath().replaceFirst("[.]jar[!].*", ".jar").replaceFirst("file:", "");
 
         try (JarFile jarFile = new JarFile(jarPath)) {
-            String relPath = pkgname.replace('.', '/');
-
-            jarFile.stream().forEach((entry) -> {
-                String entryName = entry.getName();
-                if (entryName.endsWith(".class") && entryName.startsWith(
-                        relPath) && entryName.length() > relPath.length() + "/"
-                        .length()) {
-                    classes.add(loadClass(entryName.replace('/', '.')
-                            .replace('\\', '.').replace(".class", "")));
-                }
-            });
+            jarFile.stream().map(ZipEntry::getName)
+                    .filter(entryName -> checkValidClass(entryName, pkgname.replace('.', '/')))
+                    .map(ClassFinder::transformPath).map(ClassFinder::loadClass)
+                    .forEach(classes::add);
         } catch (IOException e) {
             throw new ReflectException(e);
         }
+    }
+
+    private static boolean checkValidClass(String path, String relPath) {
+        return path.endsWith(".class") && path.startsWith(relPath) && path.length() > relPath.length() + "/".length();
+    }
+
+    private static String transformPath(String path) {
+        return path.replace('/', '.').replace('\\', '.').replace(".class", "");
     }
 
     private static Class<?> loadClass(String className) {

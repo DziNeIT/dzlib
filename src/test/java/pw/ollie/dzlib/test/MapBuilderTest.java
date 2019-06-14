@@ -27,8 +27,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import pw.ollie.dzlib.collect.builder.MapBuilder;
-import pw.ollie.dzlib.util.Util;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,11 +36,9 @@ public class MapBuilderTest {
     @Test
     @SuppressWarnings("unchecked")
     public void runTest() {
-        Assert.assertTrue(
-                new MapBuilder<>(new HashMap<>()).build() instanceof HashMap);
+        Assert.assertTrue(new MapBuilder<>(new HashMap<>()).build() instanceof HashMap);
 
-        final Map<String, String> map = new MapBuilder<String, String>().put(
-                Util.list("key1", "key2"), Util.list("val1", "val2")).build();
+        final Map<String, String> map = new MapBuilder<String, String>().put(Arrays.asList("key1", "key2"), Arrays.asList("val1", "val2")).build();
         Assert.assertTrue(map.containsKey("key1"));
         Assert.assertTrue(map.containsKey("key2"));
         Assert.assertTrue(map.containsValue("val1"));
@@ -49,6 +47,6 @@ public class MapBuilderTest {
         final Map<String, String> vanilla = new HashMap<>();
         vanilla.put("key1", "val1");
         vanilla.put("key2", "val2");
-        Assert.assertTrue(map.toString().equals(vanilla.toString()));
+        Assert.assertEquals(map.toString(), vanilla.toString());
     }
 }

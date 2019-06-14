@@ -21,13 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package pw.ollie.dzlib.reflect.util;
-
-import pw.ollie.dzlib.util.NameFilter;
-import pw.ollie.dzlib.util.PackageFilter;
+package pw.ollie.dzlib.reflect;
 
 import java.lang.reflect.Field;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * General reflection utility methods.
@@ -64,30 +62,14 @@ public final class Reflection {
     }
 
     /**
-     * Loop through all {@link Package}s loaded for which the names cause
-     * {@code nameFilter.test(name)} to return {@code true}.
+     * Loop through all {@link Package}s loaded which pass the test of the given.
      *
+     * @param packageFilter filter packages
      * @param consumer the {@link Consumer} for the {@link Package}s
      */
-    public static void loopPackages(NameFilter nameFilter,
-            Consumer<Package> consumer) {
+    public static void loopPackages(Predicate<Package> packageFilter, Consumer<Package> consumer) {
         for (Package curPackage : Package.getPackages()) {
-            if (nameFilter.test(curPackage.getName())) {
-                consumer.accept(curPackage);
-            }
-        }
-    }
-
-    /**
-     * Loop through all {@link Package}s loaded which pass the test of the given
-     * {@link PackageFilter}.
-     *
-     * @param consumer the {@link Consumer} for the {@link Package}s
-     */
-    public static void loopPackages(PackageFilter packageFilter,
-            Consumer<Package> consumer) {
-        for (Package curPackage : Package.getPackages()) {
-            if (packageFilter.test(curPackage, curPackage.getName())) {
+            if (packageFilter.test(curPackage)) {
                 consumer.accept(curPackage);
             }
         }

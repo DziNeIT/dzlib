@@ -30,7 +30,7 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  * @author Ollie [DziNeIT]
  */
-public final class MathHelper {
+public final class MathUtil {
     /**
      * Gets the difference between the two values. Will never be negative as the
      * smaller value will be subtracted from the larger one.
@@ -98,7 +98,7 @@ public final class MathHelper {
         return ThreadLocalRandom.current();
     }
 
-    private MathHelper() {
+    private MathUtil() {
         throw new UnsupportedOperationException();
     }
 }

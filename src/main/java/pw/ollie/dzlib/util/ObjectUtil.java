@@ -28,7 +28,7 @@ import java.util.Collection;
 /**
  * Object-related comparison methods.
  */
-public final class ObjectUtils {
+public final class ObjectUtil {
     /**
      * Checks whether {@code object} equals any of {@code objects}, using the
      * {@link Object#equals(Object)} method in {@code object} for comparisons.
@@ -71,7 +71,7 @@ public final class ObjectUtils {
         return false;
     }
 
-    private ObjectUtils() {
+    private ObjectUtil() {
         throw new UnsupportedOperationException();
     }
 }

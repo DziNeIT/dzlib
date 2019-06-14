@@ -25,7 +25,6 @@ package pw.ollie.dzlib.collect.builder;
 
 import pw.ollie.dzlib.collect.MapType;
 import pw.ollie.dzlib.collect.SingleEntryMap;
-import pw.ollie.dzlib.util.Util;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -64,9 +63,8 @@ import java.util.concurrent.ConcurrentHashMap;
  *                       .build();
  * </code>
  *
- * The above list util method is {@link Util#list(Object[])}. Note that the
- * {@link #put(List, List)} method isn't the only way of adding elements to the
- * builder. There is also {@link #put(Collection)}, which takes a {@link
+ * Note that the {@link #put(List, List)} method isn't the only way of adding elements
+ * to the builder. There is also {@link #put(Collection)}, which takes a {@link
  * Collection} of {@link Entry}s, {@link #put(Object, Object)}, which adds an
  * individual key and value, and {@link #putAll(Map)}, which puts the contents
  * of the {@link Map} to this builder.

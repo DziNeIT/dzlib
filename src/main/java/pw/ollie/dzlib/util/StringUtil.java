@@ -23,7 +23,7 @@
  */
 package pw.ollie.dzlib.util;
 
-import pw.ollie.dzlib.math.MathHelper;
+import pw.ollie.dzlib.math.MathUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
  * (some code is from the internet and isn't attributed because I don't know
  * who wrote it, and there are different people claiming ownership of it)
  */
-public final class Strings {
+public final class StringUtil {
     /**
      * The {@link Pattern} used to escape regex in {@link String}s.
      */
@@ -100,7 +100,7 @@ public final class Strings {
         } else if (length == 0) {
             return "";
         } else if (random == null) {
-            random = MathHelper.random();
+            random = MathUtil.random();
         }
 
         StringBuilder sb = new StringBuilder();
@@ -225,7 +225,7 @@ public final class Strings {
     /**
      * Checks whether the given {@code str} String is equal to any of the given
      * {@code strings}, ignoring case. For a case-sensitive equivalent, see
-     * {@link ObjectUtils#equalsAny(Object, Object...)}.
+     * {@link ObjectUtil#equalsAny(Object, Object...)}.
      *
      * @param str the string to check
      * @param strings the strings to check
@@ -438,10 +438,10 @@ public final class Strings {
      * Generates a random {@link String} of up to 10 characters
      *
      * @return a random {@link String} of length up to 10
-     * @see {@link Strings#randomString(int)}
+     * @see {@link StringUtil#randomString(int)}
      */
     public static String randomString() {
-        Random rand = MathHelper.random();
+        Random rand = MathUtil.random();
         return randomString(rand.nextInt(10), rand);
     }
 
@@ -453,7 +453,7 @@ public final class Strings {
      * @see {@link #randomString(int, Random)}
      */
     public static String randomString(int length) {
-        return randomString(length, MathHelper.random());
+        return randomString(length, MathUtil.random());
     }
 
     /**
@@ -533,7 +533,7 @@ public final class Strings {
         return lookup(lookup, name, fuzzy, 2);
     }
 
-    private Strings() {
+    private StringUtil() {
         throw new UnsupportedOperationException();
     }
 }

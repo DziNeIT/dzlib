@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package pw.ollie.dzlib.util;
+package pw.ollie.dzlib.function;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -50,8 +50,7 @@ public final class Functions {
      * @param <B> the type of value for the map
      * @return a {@link Map} of {@code function}-determined keys to given values
      */
-    public static <A, B> Map<A, B> map(Collection<B> collection, Map<A, B> map,
-            Function<B, A> function) {
+    public static <A, B> Map<A, B> map(Collection<B> collection, Map<A, B> map, Function<B, A> function) {
         collection.forEach((l) -> map.put(function.apply(l), l));
         return map;
     }
@@ -70,10 +69,8 @@ public final class Functions {
      * @param <A> the type of key for the map
      * @param <B> the type of value for the map
      * @return a {@link Map} of {@code function}-determined keys to given values
-     * @see {@link #map(Collection, Map, Function)}
      */
-    public static <A, B> Map<A, B> map(Collection<B> collection,
-            Function<B, A> function) {
+    public static <A, B> Map<A, B> map(Collection<B> collection, Function<B, A> function) {
         return map(collection, new HashMap<>(), function);
     }
 
@@ -99,89 +96,6 @@ public final class Functions {
      */
     public static <T> Predicate<T> notInstance(Class<? extends T> clazz) {
         return (e) -> !clazz.isInstance(e);
-    }
-
-    /**
-     * Returns a {@link Predicate} to check whether given objects are instanceof
-     * {@link String}.
-     *
-     * @return a Predicate to check whether objects are instanceof String
-     */
-    public static Predicate<Object> isString() {
-        return IS_STRING_PREDICATE;
-    }
-
-    /**
-     * Returns a {@link Predicate} to check that accepted values can be parsed
-     * as integers.
-     *
-     * @return a Predicate checking that accepted values can be parsed as ints
-     */
-    public static Predicate<String> isInteger() {
-        return IS_INTEGER_PREDICATE;
-    }
-
-    /**
-     * Returns a {@link Predicate} to check that accepted values can be parsed
-     * as doubles.
-     *
-     * @return a Predicate checking that accepted values can be parsed as
-     *         doubles
-     */
-    public static Predicate<String> isDouble() {
-        return IS_DOUBLE_PREDICATE;
-    }
-
-    /**
-     * Returns a {@link Predicate} to check that accepted values can be parsed
-     * as longs.
-     *
-     * @return a Predicate checking that accepted values can be parsed as longs
-     */
-    public static Predicate<String> isLong() {
-        return IS_LONG_PREDICATE;
-    }
-
-    /**
-     * Returns a {@link Predicate} to check that accepted values can be parsed
-     * as floats.
-     *
-     * @return a Predicate checking that accepted values can be parsed as floats
-     */
-    public static Predicate<String> isFloat() {
-        return IS_FLOAT_PREDICATE;
-    }
-
-    /**
-     * Returns a {@link Predicate} to check that accepted values can be parsed
-     * as shorts.
-     *
-     * @return a Predicate checking that accepted values can be parsed as shorts
-     */
-    public static Predicate<String> isShort() {
-        return IS_SHORT_PREDICATE;
-    }
-
-    /**
-     * Returns a {@link Predicate} to check that accepted values can be parsed
-     * as bytes.
-     *
-     * @return a Predicate checking that accepted values can be parsed as bytes
-     */
-    public static Predicate<String> isByte() {
-        return IS_BYTE_PREDICATE;
-    }
-
-    /**
-     * Gets a {@link BiPredicate} which checks for the two given objects being
-     * equal to each other.
-     *
-     * @param <T> the type of object to compare
-     * @return a BiPredicate checking for two given objects being equal
-     * @see {@link #areEqualNullable()}
-     */
-    public static <T> BiPredicate<T, T> areEqual() {
-        return EQUAL_PREDICATE;
     }
 
     /**
@@ -266,9 +180,6 @@ public final class Functions {
     private static final Supplier NULL_SUPPLIER = () -> null;
     private static final Predicate TRUE_PREDICATE = (e) -> true;
     private static final Predicate FALSE_PREDICATE = (e) -> false;
-    private static final BiPredicate EQUAL_PREDICATE = (a, b) -> a.equals(b);
-    private static final Predicate<Object> IS_STRING_PREDICATE = (
-            a) -> a instanceof String;
     private static final BiPredicate EQUAL_NULLABLE_PREDICATE = (a, b) -> {
         if (a == null || b == null) {
             return a == null && b == null;
@@ -276,12 +187,6 @@ public final class Functions {
             return a.equals(b);
         }
     };
-    private static final Predicate<String> IS_INTEGER_PREDICATE = PrimitiveType.INT::canBeParsed;
-    private static final Predicate<String> IS_DOUBLE_PREDICATE = PrimitiveType.DOUBLE::canBeParsed;
-    private static final Predicate<String> IS_LONG_PREDICATE = PrimitiveType.LONG::canBeParsed;
-    private static final Predicate<String> IS_FLOAT_PREDICATE = PrimitiveType.FLOAT::canBeParsed;
-    private static final Predicate<String> IS_SHORT_PREDICATE = PrimitiveType.SHORT::canBeParsed;
-    private static final Predicate<String> IS_BYTE_PREDICATE = PrimitiveType.BYTE::canBeParsed;
 
     private Functions() {
     }

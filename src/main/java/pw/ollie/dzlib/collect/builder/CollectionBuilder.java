@@ -102,7 +102,6 @@ public class CollectionBuilder<T extends Collection, E> {
      * {@link Collection} being used is a {@link List}.
      *
      * @return this {@link CollectionBuilder} object
-     * @see {@link Collections#sort(List)}
      */
     public CollectionBuilder<T, E> sort() {
         if (elements instanceof List) {
@@ -118,11 +117,10 @@ public class CollectionBuilder<T extends Collection, E> {
      *
      * @param comparator the {@link Comparator} to compare elements
      * @return this {@link CollectionBuilder} object
-     * @see {@link Collections#sort(List, Comparator)}
      */
     public CollectionBuilder<T, E> sort(Comparator<E> comparator) {
         if (elements instanceof List) {
-            Collections.sort((List) elements, comparator);
+            ((List) elements).sort(comparator);
         }
         return this;
     }

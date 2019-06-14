@@ -28,7 +28,7 @@ import java.util.Collection;
 /**
  * Simple number-related helper methods.
  */
-public final class Numbers {
+public final class NumberUtil {
     /**
      * Gets the sum of all of the given numbers.
      *
@@ -137,7 +137,7 @@ public final class Numbers {
         return Math.sqrt(result / numbers.length);
     }
 
-    private Numbers() {
+    private NumberUtil() {
         throw new UnsupportedOperationException();
     }
 }

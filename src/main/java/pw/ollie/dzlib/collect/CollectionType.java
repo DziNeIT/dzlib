@@ -215,8 +215,7 @@ public abstract class CollectionType<T extends Collection> {
     public abstract T instantiate();
 
     @SuppressWarnings("unchecked")
-    public static <T extends Collection> CollectionType<T> get(
-            Class<T> collectionClass) {
+    public static <T extends Collection> CollectionType<T> get(Class<T> collectionClass) {
         return types.get(collectionClass);
     }
 }

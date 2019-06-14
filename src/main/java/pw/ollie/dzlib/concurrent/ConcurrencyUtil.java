@@ -28,7 +28,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * General utility methods for helping with concurrency.
  */
-public final class ConcurrencyHelper {
+public final class ConcurrencyUtil {
     /**
      * Gets a {@link ConstantFuture} - a {@link Future} with a constant value -
      * with the given {@code value}.
@@ -50,7 +50,7 @@ public final class ConcurrencyHelper {
         return ThreadLocalRandom.current();
     }
 
-    private ConcurrencyHelper() {
+    private ConcurrencyUtil() {
         throw new UnsupportedOperationException(":(");
     }
 }
