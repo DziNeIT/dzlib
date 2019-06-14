@@ -1,10 +1,10 @@
 # dzlib
 
-dzlib is a Java library full of helpful utilities. It provides access to some of the darker parts of Java, like the `sun.misc.Unsafe` class.
+dzlib is a Java library full of helpful utilities, either written by me or sourced from other utility libraries / open-source programs (these are pointed out in JavaDocs).
 
 ## Authors
 
-The dzlib library is created and maintained by DziNeIT (Ollie). Authors of individual classes and code are pointed out in the JavaDocs. Note that if applicable, the formatting for a JavaDoc @author tag is 'Real Name [GitHub User]'.
+The dzlib library is created and maintained by Oliver Stanley. Authors of individual classes and code are pointed out in the JavaDocs.
 
 ## License
 
