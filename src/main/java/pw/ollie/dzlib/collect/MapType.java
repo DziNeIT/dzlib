@@ -1,7 +1,7 @@
 /*
  * This file is part of dzlib, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014-2019 Oliver Stanley <http://ollie.pw>
+ * Copyright (c) 2014-2019 Oliver Stanley
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,8 +33,7 @@ import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Represents an implementation of the Java {@link Map} interface. Used for
- * {@link MapBuilder}.
+ * Represents an implementation of the Java {@link Map} interface. Used for {@link MapBuilder}.
  */
 public abstract class MapType {
     /**

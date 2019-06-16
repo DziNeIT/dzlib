@@ -1,7 +1,7 @@
 /*
  * This file is part of dzlib, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014-2019 Oliver Stanley <http://ollie.pw>
+ * Copyright (c) 2014-2019 Oliver Stanley
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,8 +37,7 @@ import java.util.regex.Pattern;
  * Utility methods for manipulation of {@link String}s
  *
  * @author Ollie [DziNeIT]
- * (some code is from the internet and isn't attributed because I don't know
- * who wrote it, and there are different people claiming ownership of it)
+ * (some code is from the internet and isn't attributed because I don't know who wrote it)
  */
 public final class StringUtil {
     /**
@@ -48,7 +47,7 @@ public final class StringUtil {
     /**
      * All the standard ASCII alphanumeric characters, both cases.
      */
-    private static final char[] ALPHANUM = new char[] {
+    private static final char[] ALPHANUM = new char[]{
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
             'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
@@ -58,7 +57,7 @@ public final class StringUtil {
     /**
      * All the consonants, both cases. This isn't currently used.
      */
-    private static final char[] CONSONANTS = new char[] {
+    private static final char[] CONSONANTS = new char[]{
             'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q',
             'r', 's', 't', 'v', 'w', 'x', 'z', 'B', 'C', 'D', 'F', 'G', 'H',
             'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Z'
@@ -114,11 +113,11 @@ public final class StringUtil {
      * Joins all of the arguments in the given String[], starting from the given
      * {@code start}, separating each string by the provided {@code delimiter}.
      *
-     * @param strings the String[] to retrieve the arguments from
-     * @param start the index to start joining arguments from
+     * @param strings   the String[] to retrieve the arguments from
+     * @param start     the index to start joining arguments from
      * @param delimiter the String to separate elements with
      * @return a string of elements in the given String[], starting at the
-     *         specified start index
+     * specified start index
      * @see {@link #join(String[])} redirect to this method
      * @see {@link #join(String[], int)} redirect to this method
      * @see {@link #join(String[], String)} redirect to this method
@@ -160,11 +159,11 @@ public final class StringUtil {
     /**
      * Checks whether the given {@code str} {@link String} starts with the given
      * {@code prefix} {@link String}, ignoring case.
-     *
+     * <p>
      * Credit <a href="https://github.com/flow/flow-commons">flow-commons</a>
      * for using a method which avoids bounds checks which I then used too.
      *
-     * @param str the main string
+     * @param str    the main string
      * @param prefix the string to test for the presence of
      * @return whether {@code str} starts with {@code prefix} ignoring case
      */
@@ -189,7 +188,7 @@ public final class StringUtil {
      * {@code prefixes}. This method is case-sensitive. For a  case-insensitive
      * version, see {@link #startsWithAnyIgnoreCase(String, String...)}.
      *
-     * @param str the string to check
+     * @param str      the string to check
      * @param prefixes the strings to test for the presence of
      * @return whether {@code str} starts with any of {@code prefixes}
      */
@@ -207,13 +206,13 @@ public final class StringUtil {
      * {@code prefixes}. This method is case-insensitive. For a  case-sensitive
      * version, see {@link #startsWithAny(String, String...)}.
      *
-     * @param str the string to check
+     * @param str      the string to check
      * @param prefixes the strings to test for the presence of
      * @return whether {@code str} starts with any of {@code prefixes}, ignoring
-     *         case
+     * case
      */
     public static boolean startsWithAnyIgnoreCase(String str,
-            String... prefixes) {
+                                                  String... prefixes) {
         for (String prefix : prefixes) {
             if (startsWithIgnoreCase(str, prefix)) {
                 return true;
@@ -227,7 +226,7 @@ public final class StringUtil {
      * {@code strings}, ignoring case. For a case-sensitive equivalent, see
      * {@link ObjectUtil#equalsAny(Object, Object...)}.
      *
-     * @param str the string to check
+     * @param str     the string to check
      * @param strings the strings to check
      * @return whether {@code str} equals any of {@code strings}, ignoring case
      */
@@ -245,11 +244,11 @@ public final class StringUtil {
      * times, with each repetition separated by the {@link String} given as the
      * {@code delimiter}.
      *
-     * @param repeat the {@link String} to repeat
-     * @param amount the amount of times to repeat the given string
+     * @param repeat    the {@link String} to repeat
+     * @param amount    the amount of times to repeat the given string
      * @param delimiter the separator for each repetition
      * @return the given string repeated the given amount of times separated by
-     *         the given delimiter
+     * the given delimiter
      * @see {@link #repeated(String, int)} for shortcut method
      */
     public static String repeated(String repeat, int amount, String delimiter) {
@@ -262,7 +261,7 @@ public final class StringUtil {
 
     /**
      * Find Levenshtein distance between two Strings.
-     *
+     * <p>
      * From https://github.com/thorikawa/levenshtein-distance-search-sample/
      *
      * @param s the first String, not  {@code null}
@@ -315,19 +314,19 @@ public final class StringUtil {
      * distance will be used to find the closest name to the given name in the
      * given {@link Map}.
      *
-     * @param lookup the {@link Map} to perform the lookup in
-     * @param name the name to lookup in the {@link Map}
-     * @param fuzzy whether to perform a fuzzy search
-     * @param <T> the type of value the {@link Map} contains
+     * @param lookup    the {@link Map} to perform the lookup in
+     * @param name      the name to lookup in the {@link Map}
+     * @param fuzzy     whether to perform a fuzzy search
+     * @param <T>       the type of value the {@link Map} contains
      * @param tolerance how far from the given name the key is allowed to be
-     *        if a levenshtein search is performed
+     *                  if a levenshtein search is performed
      * @return the value for the given name in the {@link Map}, or the value for
-     *         the closest key to the given name in the {@link Map} if fuzzy is
-     *         {@code true}
+     * the closest key to the given name in the {@link Map} if fuzzy is
+     * {@code true}
      * @see {@link #lookup(Map, String, boolean)} for shortcut method
      */
     public static <T> Optional<T> lookup(Map<String, T> lookup, String name,
-            boolean fuzzy, int tolerance) {
+                                         boolean fuzzy, int tolerance) {
         name = name.replaceAll("[ _]", "").toLowerCase();
 
         T type = lookup.get(name);
@@ -351,19 +350,19 @@ public final class StringUtil {
             }
         }
 
-        return Optional.of(type);
+        return type == null ? Optional.empty() : Optional.of(type);
     }
 
     /**
      * Takes in a String[] & joins quoted elements, returning a new String[]
      * whereby multiple elements in the original String[] which are enclosed in
      * quotations become a single element in the new array.
-     *
+     * <p>
      * This method supports both single quotes ('') and double quotes ("").
      *
      * @param strings the original strings to join by quotes
      * @return a String[] from the given String[] but with quotation-enclosed
-     *         elements as one element
+     * elements as one element
      */
     public static String[] joinQuoted(String[] strings) {
         List<String> parsed = new ArrayList<>(strings.length);
@@ -476,9 +475,9 @@ public final class StringUtil {
      * returned.
      *
      * @param strings the String[] to retrieve the arguments from
-     * @param start the index to start joining arguments from
+     * @param start   the index to start joining arguments from
      * @return a string of elements in the given String[], starting at the
-     *         specified start index
+     * specified start index
      * @see {@link #join(String[], int, String)}
      */
     public static String join(String[] strings, int start) {
@@ -489,10 +488,10 @@ public final class StringUtil {
      * Joins all of the arguments in the given String[], separating each string
      * by the provided {@code delimiter}.
      *
-     * @param strings the String[] to retrieve the arguments from
+     * @param strings   the String[] to retrieve the arguments from
      * @param delimiter the String to separate elements with
      * @return a string of elements in the given String[], starting at the
-     *         specified start index
+     * specified start index
      * @see {@link #join(String[], int, String)}
      */
     public static String join(String[] strings, String delimiter) {
@@ -519,16 +518,16 @@ public final class StringUtil {
      * given {@link Map}.
      *
      * @param lookup the {@link Map} to perform the lookup in
-     * @param name the name to lookup in the {@link Map}
-     * @param fuzzy whether to perform a fuzzy search
-     * @param <T> the type of value the {@link Map} contains
+     * @param name   the name to lookup in the {@link Map}
+     * @param fuzzy  whether to perform a fuzzy search
+     * @param <T>    the type of value the {@link Map} contains
      * @return the value for the given name in the {@link Map}, or the value for
-     *         the closest key to the given name in the {@link Map} if fuzzy is
-     *         {@code true}
+     * the closest key to the given name in the {@link Map} if fuzzy is
+     * {@code true}
      * @see {@link #lookup(Map, String, boolean, int)}
      */
     public static <T> Optional<T> lookup(Map<String, T> lookup, String name,
-            boolean fuzzy) {
+                                         boolean fuzzy) {
         // default to a tolerance of 2 characters
         return lookup(lookup, name, fuzzy, 2);
     }
